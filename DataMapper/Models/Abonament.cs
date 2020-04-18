@@ -17,5 +17,7 @@ namespace DistribuitorServiciiMobile.Models
 
         public virtual Client Client { get; set; }
         public virtual ICollection<AbonamentMinute> AbonamentMinute { get; set; }
+        public virtual ICollection<AbonamentDate> AbonamentDate { get; set; }
+        public virtual ICollection<AbonamentSms> AbonamentSms { get; set; }
     }
 }

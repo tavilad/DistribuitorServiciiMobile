@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace DistribuitorServiciiMobile.Models
 {
@@ -19,6 +17,10 @@ namespace DistribuitorServiciiMobile.Models
         public virtual DbSet<AbonamentMinute> AbonamentMinute { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Minute> Minute { get; set; }
+        public virtual DbSet<DateMobile> DateMobile { get; set; }
+        public virtual DbSet<SMS> Sms { get; set;}
+        public virtual DbSet<AbonamentDate> AbonamentDate { get; set; }
+        public virtual DbSet<AbonamentSms> AbonamentSms { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,45 +32,45 @@ namespace DistribuitorServiciiMobile.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Abonament>(entity =>
-            {
-                entity.HasIndex(e => e.ClientId);
+            //modelBuilder.Entity<Abonament>(entity =>
+            //{
+            //    entity.HasIndex(e => e.ClientId);
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+            //    entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.Client)
-                    .WithMany(p => p.Abonament)
-                    .HasForeignKey(d => d.ClientId);
-            });
+            //    entity.HasOne(d => d.Client)
+            //        .WithMany(p => p.Abonament)
+            //        .HasForeignKey(d => d.ClientId);
+            //});
 
-            modelBuilder.Entity<AbonamentMinute>(entity =>
-            {
-                entity.HasIndex(e => e.AbonamentId);
+            //modelBuilder.Entity<AbonamentMinute>(entity =>
+            //{
+            //    entity.HasIndex(e => e.AbonamentId);
 
-                entity.HasIndex(e => e.MinuteId);
+            //    entity.HasIndex(e => e.MinuteId);
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+            //    entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.Abonament)
-                    .WithMany(p => p.AbonamentMinute)
-                    .HasForeignKey(d => d.AbonamentId);
+            //    entity.HasOne(d => d.Abonament)
+            //        .WithMany(p => p.AbonamentMinute)
+            //        .HasForeignKey(d => d.AbonamentId);
 
-                entity.HasOne(d => d.Minute)
-                    .WithMany(p => p.AbonamentMinute)
-                    .HasForeignKey(d => d.MinuteId);
-            });
+            //    entity.HasOne(d => d.Minute)
+            //        .WithMany(p => p.AbonamentMinute)
+            //        .HasForeignKey(d => d.MinuteId);
+            //});
 
-            modelBuilder.Entity<Client>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            //modelBuilder.Entity<Client>(entity =>
+            //{
+            //    entity.Property(e => e.Id).ValueGeneratedNever();
+            //});
 
-            modelBuilder.Entity<Minute>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-            });
+            //modelBuilder.Entity<Minute>(entity =>
+            //{
+            //    entity.Property(e => e.Id).ValueGeneratedNever();
+            //});
 
-            OnModelCreatingPartial(modelBuilder);
+            //OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
