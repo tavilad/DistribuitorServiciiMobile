@@ -4,14 +4,16 @@ using DistribuitorServiciiMobile.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataMapper.Migrations
+namespace DomainModel.Migrations
 {
     [DbContext(typeof(DistribuitorServiciiMobileContext))]
-    partial class DistribuitorServiciiMobileContextModelSnapshot : ModelSnapshot
+    [Migration("20200505214739_testing")]
+    partial class testing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,69 +36,6 @@ namespace DataMapper.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Abonament");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.AbonamentDate", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AbonamentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("DateId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AbonamentId");
-
-                    b.HasIndex("DateId");
-
-                    b.ToTable("AbonamentDate");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.AbonamentMinute", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AbonamentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("MinuteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AbonamentId");
-
-                    b.HasIndex("MinuteId");
-
-                    b.ToTable("AbonamentMinute");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.AbonamentSms", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AbonamentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("SmsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AbonamentId");
-
-                    b.HasIndex("SmsId");
-
-                    b.ToTable("AbonamentSms");
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Bonus", b =>
@@ -171,6 +110,9 @@ namespace DataMapper.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AbonamentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("NumarDate")
                         .HasColumnType("int");
 
@@ -178,6 +120,8 @@ namespace DataMapper.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AbonamentId");
 
                     b.ToTable("DateMobile");
                 });
@@ -188,6 +132,9 @@ namespace DataMapper.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AbonamentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("NumarMinute")
                         .HasColumnType("int");
 
@@ -195,6 +142,8 @@ namespace DataMapper.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AbonamentId");
 
                     b.ToTable("Minute");
                 });
@@ -205,6 +154,9 @@ namespace DataMapper.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("AbonamentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("NumarSms")
                         .HasColumnType("int");
 
@@ -213,40 +165,9 @@ namespace DataMapper.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AbonamentId");
+
                     b.ToTable("Sms");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.AbonamentDate", b =>
-                {
-                    b.HasOne("DistribuitorServiciiMobile.Models.Abonament", "Abonament")
-                        .WithMany("AbonamentDate")
-                        .HasForeignKey("AbonamentId");
-
-                    b.HasOne("DistribuitorServiciiMobile.Models.DateMobile", "Date")
-                        .WithMany("AbonamentDate")
-                        .HasForeignKey("DateId");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.AbonamentMinute", b =>
-                {
-                    b.HasOne("DistribuitorServiciiMobile.Models.Abonament", "Abonament")
-                        .WithMany("AbonamentMinute")
-                        .HasForeignKey("AbonamentId");
-
-                    b.HasOne("DistribuitorServiciiMobile.Models.Minute", "Minute")
-                        .WithMany("AbonamentMinute")
-                        .HasForeignKey("MinuteId");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.AbonamentSms", b =>
-                {
-                    b.HasOne("DistribuitorServiciiMobile.Models.Abonament", "Abonament")
-                        .WithMany("AbonamentSms")
-                        .HasForeignKey("AbonamentId");
-
-                    b.HasOne("DistribuitorServiciiMobile.Models.SMS", "Sms")
-                        .WithMany("AbonamentSms")
-                        .HasForeignKey("SmsId");
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Bonus", b =>
@@ -265,6 +186,27 @@ namespace DataMapper.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.Client", "Client")
                         .WithMany("Contracte")
                         .HasForeignKey("ClientId");
+                });
+
+            modelBuilder.Entity("DistribuitorServiciiMobile.Models.DateMobile", b =>
+                {
+                    b.HasOne("DistribuitorServiciiMobile.Models.Abonament", null)
+                        .WithMany("AbonamentDate")
+                        .HasForeignKey("AbonamentId");
+                });
+
+            modelBuilder.Entity("DistribuitorServiciiMobile.Models.Minute", b =>
+                {
+                    b.HasOne("DistribuitorServiciiMobile.Models.Abonament", null)
+                        .WithMany("AbonamentMinute")
+                        .HasForeignKey("AbonamentId");
+                });
+
+            modelBuilder.Entity("DistribuitorServiciiMobile.Models.SMS", b =>
+                {
+                    b.HasOne("DistribuitorServiciiMobile.Models.Abonament", null)
+                        .WithMany("AbonamentSms")
+                        .HasForeignKey("AbonamentId");
                 });
 #pragma warning restore 612, 618
         }

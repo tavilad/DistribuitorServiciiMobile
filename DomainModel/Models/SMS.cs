@@ -8,8 +8,5 @@ namespace DistribuitorServiciiMobile.Models
         public Guid Id { get; set; }
         public string TipSms { get; set; }
         public int NumarSms { get; set; }
-
-        public virtual ICollection<AbonamentSms> AbonamentSms { get; set; }
-
     }
 }

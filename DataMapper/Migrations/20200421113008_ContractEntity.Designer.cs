@@ -4,14 +4,16 @@ using DistribuitorServiciiMobile.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataMapper.Migrations
 {
     [DbContext(typeof(DistribuitorServiciiMobileContext))]
-    partial class DistribuitorServiciiMobileContextModelSnapshot : ModelSnapshot
+    [Migration("20200421113008_ContractEntity")]
+    partial class ContractEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,31 +99,6 @@ namespace DataMapper.Migrations
                     b.HasIndex("SmsId");
 
                     b.ToTable("AbonamentSms");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.Bonus", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("DateBonus")
-                        .HasColumnType("float");
-
-                    b.Property<double>("MinuteBonus")
-                        .HasColumnType("float");
-
-                    b.Property<int>("SmsBonus")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContractId");
-
-                    b.ToTable("Bonus");
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Client", b =>
@@ -247,13 +224,6 @@ namespace DataMapper.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.SMS", "Sms")
                         .WithMany("AbonamentSms")
                         .HasForeignKey("SmsId");
-                });
-
-            modelBuilder.Entity("DistribuitorServiciiMobile.Models.Bonus", b =>
-                {
-                    b.HasOne("DistribuitorServiciiMobile.Models.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId");
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Contract", b =>
