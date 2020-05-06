@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DistribuitorServiciiMobile.Models
+﻿namespace DistribuitorServiciiMobile.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>Client entity class</summary>
     public partial class Client
     {
         /// <summary>Gets or sets the identifier.</summary>

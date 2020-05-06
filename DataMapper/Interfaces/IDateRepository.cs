@@ -1,10 +1,8 @@
-﻿using DistribuitorServiciiMobile.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataMapper.Interfaces
+﻿namespace DataMapper.Interfaces
 {
+    using DistribuitorServiciiMobile.Models;
+
+    /// <summary>Interface for the DateMobile entity repository</summary>
     public interface IDateRepository : IBaseRepository<DateMobile>
     {
     }

@@ -1,11 +1,9 @@
-﻿using DataMapper.Interfaces;
-using DistribuitorServiciiMobile.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataMapper
+﻿namespace DataMapper
 {
+    using DataMapper.Interfaces;
+    using DistribuitorServiciiMobile.Models;
+
+    /// <summary>Repository class for the SMS entity</summary>
     public class SmsRepository : BaseRepository<SMS>, ISmsRepository
     {
         /// <summary>The context</summary>

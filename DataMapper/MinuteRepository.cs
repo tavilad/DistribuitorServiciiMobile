@@ -1,11 +1,9 @@
-﻿using DataMapper.Interfaces;
-using DistribuitorServiciiMobile.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataMapper
+﻿namespace DataMapper
 {
+    using DataMapper.Interfaces;
+    using DistribuitorServiciiMobile.Models;
+
+    /// <summary>Repository class for the Minute entity</summary>
     public class MinuteRepository : BaseRepository<Minute>, IMinuteRepository
     {
         /// <summary>The context</summary>

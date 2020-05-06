@@ -1,12 +1,10 @@
-﻿using DataMapper.Interfaces;
-using DistribuitorServiciiMobile.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataMapper
+﻿namespace DataMapper
 {
-    class ClientRepository : BaseRepository<Client>, IClientRepository
+    using DataMapper.Interfaces;
+    using DistribuitorServiciiMobile.Models;
+
+    /// <summary>Repository class for Client entity</summary>
+    public class ClientRepository : BaseRepository<Client>, IClientRepository
     {
         /// <summary>The context</summary>
         private readonly DistribuitorServiciiMobileContext context;

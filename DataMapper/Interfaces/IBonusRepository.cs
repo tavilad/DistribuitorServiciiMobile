@@ -1,10 +1,8 @@
-﻿using DistribuitorServiciiMobile.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataMapper.Interfaces
+﻿namespace DataMapper.Interfaces
 {
+    using DistribuitorServiciiMobile.Models;
+
+    /// <summary>Interface for Bonus entity repository</summary>
     public interface IBonusRepository : IBaseRepository<Bonus>
     {
     }

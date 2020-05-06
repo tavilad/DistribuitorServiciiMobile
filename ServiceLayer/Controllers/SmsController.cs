@@ -1,41 +1,56 @@
-﻿using DataMapper.Interfaces;
-using DistribuitorServiciiMobile.Models;
-using FluentValidation.Results;
-using ServiceLayer.Validation;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Controllers
+﻿namespace ServiceLayer.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+    using DataMapper.Interfaces;
+    using DistribuitorServiciiMobile.Models;
+    using FluentValidation.Results;
+    using ServiceLayer.Validation;
+
+    /// <summary>Service layer controller for the SMS entity</summary>
     public class SmsController
     {
-        private ISmsRepository _smsRepository;
-        private SmsValidation _smsValidation;
+        /// <summary>The SMS repository</summary>
+        private ISmsRepository smsRepository;
 
+        /// <summary>The SMS validation</summary>
+        private SmsValidation smsValidation;
+
+        /// <summary>Initializes a new instance of the <see cref="SmsController" /> class.</summary>
+        /// <param name="repository">The repository.</param>
         public SmsController(ISmsRepository repository)
         {
-            this._smsRepository = repository;
+            this.smsRepository = repository;
         }
 
+        /// <summary>Gets all SMS.</summary>
+        /// <returns>A list of SMS entity</returns>
         public async Task<IEnumerable<SMS>> GetAllSms()
         {
-            return await _smsRepository.Get(Sms => Sms != null, null, "");
+            return await this.smsRepository.Get(Sms => Sms != null, null, string.Empty);
         }
 
-        public async Task AddSms(SMS Sms)
+        /// <summary>Adds the SMS.</summary>
+        /// <param name="sms">The SMS.</param>
+        /// <returns>Awaitable task</returns>
+        public async Task AddSms(SMS sms)
         {
-            this._smsValidation = new SmsValidation();
-            ValidationResult results = _smsValidation.Validate(Sms);
+            this.smsValidation = new SmsValidation();
+            ValidationResult results = this.smsValidation.Validate(sms);
             if (results.Errors.Count == 0)
-                await _smsRepository.Insert(Sms);
-
+            {
+                await this.smsRepository.Insert(sms);
+            }
         }
 
-        public async Task DeleteSms(SMS Sms)
+        /// <summary>Deletes the SMS.</summary>
+        /// <param name="sms">The SMS.</param>
+        /// <returns>Awaitable task</returns>
+        public async Task DeleteSms(SMS sms)
         {
-            await _smsRepository.Delete(Sms);
+            await this.smsRepository.Delete(sms);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DistribuitorServiciiMobile.Models
+﻿namespace DistribuitorServiciiMobile.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>Minute entity class</summary>
     public partial class Minute
     {
         /// <summary>Gets or sets the identifier.</summary>

@@ -1,7 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace DistribuitorServiciiMobile.Models
+﻿namespace DistribuitorServiciiMobile.Models
 {
+    using Microsoft.EntityFrameworkCore;
+
+    /// <summary>Database context class</summary>
     public partial class DistribuitorServiciiMobileContext : DbContext
     {
         /// <summary>Initializes a new instance of the <see cref="DistribuitorServiciiMobileContext" /> class.</summary>
@@ -34,7 +35,7 @@ namespace DistribuitorServiciiMobile.Models
 
         /// <summary>Gets or sets the SMS.</summary>
         /// <value>The SMS.</value>
-        public virtual DbSet<SMS> Sms { get; set;}
+        public virtual DbSet<SMS> Sms { get; set; }
 
         /// <summary>Gets or sets the contract.</summary>
         /// <value>The contract.</value>

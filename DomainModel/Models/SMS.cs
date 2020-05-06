@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
-
 namespace DistribuitorServiciiMobile.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>SMS entity class</summary>
     public partial class SMS
     {
         /// <summary>Gets or sets the identifier.</summary>

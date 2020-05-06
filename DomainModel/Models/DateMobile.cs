@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
-
 namespace DistribuitorServiciiMobile.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>DateMobile entity class</summary>
     public partial class DateMobile
     {
         /// <summary>Gets or sets the identifier.</summary>

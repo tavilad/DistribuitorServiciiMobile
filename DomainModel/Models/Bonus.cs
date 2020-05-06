@@ -1,11 +1,10 @@
-﻿using DistribuitorServiciiMobile.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DistribuitorServiciiMobile.Models
+﻿namespace DistribuitorServiciiMobile.Models
 {
-    /// <summary></summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    /// <summary>Bonus entity class</summary>
     public class Bonus
     {
         /// <summary>Gets or sets the identifier.</summary>
