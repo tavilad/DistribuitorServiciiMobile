@@ -1,4 +1,10 @@
-﻿using System;
+﻿using DataMapper.Interfaces;
+using DataMapper;
+using System;
+using DistribuitorServiciiMobile.Models;
+using ServiceLayer.Controllers;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ServiceLayer
 {
@@ -6,7 +12,7 @@ namespace ServiceLayer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }

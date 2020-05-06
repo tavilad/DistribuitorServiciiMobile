@@ -15,13 +15,13 @@ namespace ServiceLayer.Validation
 
         public AbonamentValidation()
         {
-            RuleFor(abonament => abonament.Pret).LessThan(0).
+            RuleFor(abonament => abonament.Pret).GreaterThan(0).
                 WithMessage("Pretul unui abonament nu poate fi negativ");
 
-            RuleFor(abonament => abonament.DataInceput).LessThan(DateTime.Today).
+            RuleFor(abonament => abonament.DataInceput).GreaterThan(DateTime.Today).
                 WithMessage("Data de inceput a abonamentului nu poate fi mai devreme de azi");
 
-            RuleFor(abonament => abonament.DataSfarsit).LessThan(DateTime.Today).
+            RuleFor(abonament => abonament.DataSfarsit).GreaterThan(DateTime.Today).
                 WithMessage("Data de sfarsit a abonamentului nu poate fi mai devreme de azi");
         }
 
