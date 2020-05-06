@@ -19,10 +19,6 @@
         /// <value>The pret.</value>
         public double Pret { get; set; }
 
-        /// <summary>Gets or sets the trafic date.</summary>
-        /// <value>The trafic date.</value>
-        public double TraficDate { get; set; }
-
         /// <summary>Gets or sets the data inceput.</summary>
         /// <value>The data inceput.</value>
         public DateTime DataInceput { get; set; }
