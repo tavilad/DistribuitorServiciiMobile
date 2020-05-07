@@ -2,7 +2,9 @@
 {
     using DomainModel.Models;
     using Microsoft.EntityFrameworkCore;
+    using System.Diagnostics.CodeAnalysis;
 
+    [ExcludeFromCodeCoverage]
     /// <summary>Database context class</summary>
     public partial class DistribuitorServiciiMobileContext : DbContext
     {

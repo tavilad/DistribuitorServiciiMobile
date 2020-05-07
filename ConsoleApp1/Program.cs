@@ -6,32 +6,74 @@ using ServiceLayer.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace ConsoleApp1
 {
+    [ExcludeFromCodeCoverage]
     class Program
     {
         static async System.Threading.Tasks.Task Main(string[] args)
         {
             DistribuitorServiciiMobileContext context = new DistribuitorServiciiMobileContext();
+
             IAbonamentRepository abonamentRepository = new AbonamentRepository(context);
             AbonamentController abonamentController = new AbonamentController(abonamentRepository);
-            Abonament abonament = new Abonament()
-            {
-                Pret = 1000,
-                DataInceput = DateTime.Now,
-                DataSfarsit = new DateTime(2020, 9, 14),
-            };
+            //Abonament abonament = new Abonament()
+            //{
+            //    Pret = 1000,
+            //    DataInceput = DateTime.Now,
+            //    DataSfarsit = new DateTime(2020, 9, 14),
+            //};
 
-            await abonamentController.AddAbonament(abonament);
+            //await abonamentController.AddAbonament(abonament);
 
             IEnumerable<Abonament> abonamentList = await abonamentController.GetAllAbonament();
 
-            foreach (var entry in abonamentList)
+            //foreach (var entry in abonamentList)
+            //{
+            //    Console.WriteLine(entry.Pret);
+            //    Console.WriteLine(entry.DataInceput);
+            //    Console.WriteLine(entry.DataSfarsit);
+            //}
+
+            IClientRepository clientRepository = new ClientRepository(context);
+            ClientController clientController = new ClientController(clientRepository);
+            //Client client = new Client()
+            //{
+            //    FirstName = "Octavian",
+            //    LastName = "Pintiliciuc",
+            //    CodNumericPersonal = "1960914080014"
+            //};
+
+            //await clientController.AddClient(client);
+
+            IEnumerable<Client> clientList = await clientController.GetAllClient();
+
+            //foreach (var entry in clientList)
+            //{
+            //    Console.WriteLine(entry.FirstName);
+            //    Console.WriteLine(entry.LastName);
+            //    Console.WriteLine(entry.CodNumericPersonal);
+            //}
+
+            IContractRepository contractRepository = new ContractRepository(context);
+            ContractController contractController = new ContractController(contractRepository);
+            Contract contract = new Contract()
             {
-                Console.WriteLine(entry.Pret);
-                Console.WriteLine(entry.DataInceput);
-                Console.WriteLine(entry.DataSfarsit);
+                Abonament = abonamentList.FirstOrDefault(),
+                Client = clientList.FirstOrDefault()
+            };
+
+            await contractController.AddContract(contract);
+
+            IEnumerable<Contract> contractList = await contractController.GetAllContract();
+
+            foreach (var entry in contractList)
+            {
+                Console.WriteLine(entry.Abonament.Pret);
+                Console.WriteLine(entry.Client.FirstName);
             }
         }
     }
