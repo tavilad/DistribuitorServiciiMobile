@@ -1,21 +1,24 @@
-﻿using DataMapper.Interfaces;
-using DistribuitorServiciiMobile.Models;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ServiceLayer.Validation
+﻿namespace ServiceLayer.Validation
 {
-    class DateValidation : AbstractValidator<DateMobile>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using DataMapper.Interfaces;
+    using DistribuitorServiciiMobile.Models;
+    using FluentValidation;
+
+    /// <summary>Validator class for the DateMobile entity</summary>
+    public class DateValidation : AbstractValidator<DateMobile>
     {
-        private IDateRepository _repo;
+        /// <summary>The repo</summary>
+        private IDateRepository repo;
 
-        public IList<DateMobile> DateMobile;
+        /// <summary>The date mobile</summary>
+        private IList<DateMobile> dateMobile;
 
+        /// <summary>Initializes a new instance of the <see cref="DateValidation" /> class.</summary>
         public DateValidation()
         {
-
         }
     }
 }

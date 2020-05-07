@@ -1,20 +1,25 @@
-﻿using DataMapper.Interfaces;
-using DistribuitorServiciiMobile.Models;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ServiceLayer.Validation
+﻿namespace ServiceLayer.Validation
 {
-    class ClientValidation : AbstractValidator<Client>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using DataMapper.Interfaces;
+    using DistribuitorServiciiMobile.Models;
+    using FluentValidation;
+
+    /// <summary>Validator class for the Client entity</summary>
+    public class ClientValidation : AbstractValidator<Client>
     {
-        private IClientRepository _repo;
-        public IList<Client> Clienti { get; set; }
-        
+        /// <summary>The repo</summary>
+        private IClientRepository repo;
+
+        /// <summary>Gets or sets the clienti.</summary>
+        /// <value>The clienti.</value>
+        private IList<Client> clienti;
+
+        /// <summary>Initializes a new instance of the <see cref="ClientValidation" /> class.</summary>
         public ClientValidation()
         {
-
         }
     }
 }
