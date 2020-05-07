@@ -27,6 +27,8 @@
         /// <value>The data sfarsit.</value>
         public DateTime DataSfarsit { get; set; }
 
+        public string NumeAbonament { get; set; }
+
         /// <summary>Gets or sets the abonament minute.</summary>
         /// <value>The abonament minute.</value>
         public virtual ICollection<Minute> AbonamentMinute { get; set; }

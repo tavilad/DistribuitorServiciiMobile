@@ -18,7 +18,7 @@ namespace ConsoleApp1
         {
             DistribuitorServiciiMobileContext context = new DistribuitorServiciiMobileContext();
 
-            IAbonamentRepository abonamentRepository = new AbonamentRepository(context);
+            IAbonamentRepository abonamentRepository = new AbonamentRepository();
             AbonamentController abonamentController = new AbonamentController(abonamentRepository);
             //Abonament abonament = new Abonament()
             //{
@@ -38,7 +38,7 @@ namespace ConsoleApp1
             //    Console.WriteLine(entry.DataSfarsit);
             //}
 
-            IClientRepository clientRepository = new ClientRepository(context);
+            IClientRepository clientRepository = new ClientRepository();
             ClientController clientController = new ClientController(clientRepository);
             //Client client = new Client()
             //{
@@ -58,7 +58,7 @@ namespace ConsoleApp1
             //    Console.WriteLine(entry.CodNumericPersonal);
             //}
 
-            IContractRepository contractRepository = new ContractRepository(context);
+            IContractRepository contractRepository = new ContractRepository();
             ContractController contractController = new ContractController(contractRepository);
             Contract contract = new Contract()
             {
