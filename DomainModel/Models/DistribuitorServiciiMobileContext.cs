@@ -1,5 +1,6 @@
 ﻿namespace DistribuitorServiciiMobile.Models
 {
+    using DomainModel.Models;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>Database context class</summary>
@@ -44,6 +45,14 @@
         /// <summary>Gets or sets the bonus.</summary>
         /// <value>The bonus.</value>
         public virtual DbSet<Bonus> Bonus { get; set; }
+
+        /// <summary>Gets or sets the convorbiri telefonice.</summary>
+        /// <value>The convorbiri telefonice.</value>
+        public virtual DbSet<ConvorbireTelefonica> ConvorbiriTelefonice { get; set; }
+
+        /// <summary>Gets or sets the plati.</summary>
+        /// <value>The plati.</value>
+        public virtual DbSet<Plata> Plati { get; set; }
 
         /// <summary>
         ///   <para>

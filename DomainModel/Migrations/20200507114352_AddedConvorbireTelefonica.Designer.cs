@@ -4,14 +4,16 @@ using DistribuitorServiciiMobile.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainModel.Migrations
 {
     [DbContext(typeof(DistribuitorServiciiMobileContext))]
-    partial class DistribuitorServiciiMobileContextModelSnapshot : ModelSnapshot
+    [Migration("20200507114352_AddedConvorbireTelefonica")]
+    partial class AddedConvorbireTelefonica
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,33 +200,6 @@ namespace DomainModel.Migrations
                     b.ToTable("ConvorbiriTelefonice");
                 });
 
-            modelBuilder.Entity("DomainModel.Models.Plata", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ContractId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataPlata")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("TotalDePlata")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("ContractId");
-
-                    b.ToTable("Plati");
-                });
-
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Bonus", b =>
                 {
                     b.HasOne("DistribuitorServiciiMobile.Models.Contract", "Contract")
@@ -273,17 +248,6 @@ namespace DomainModel.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.Client", "Receptor")
                         .WithMany()
                         .HasForeignKey("ReceptorId");
-                });
-
-            modelBuilder.Entity("DomainModel.Models.Plata", b =>
-                {
-                    b.HasOne("DistribuitorServiciiMobile.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
-                    b.HasOne("DistribuitorServiciiMobile.Models.Contract", "Contract")
-                        .WithMany()
-                        .HasForeignKey("ContractId");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 ﻿namespace DistribuitorServiciiMobile.Models
 {
+    using DomainModel.Models;
     using System;
     using System.Collections.Generic;
 
