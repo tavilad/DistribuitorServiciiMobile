@@ -68,5 +68,38 @@ namespace ServiceLayerTest
 
             Assert.AreEqual(2, found.Count());
         }
+
+        [TestMethod]
+        public async Task TestDeleteById()
+        {
+            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
+            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
+
+            mock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
+
+            await controller.DeleteConvorbireByID(1);
+
+            mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate()
+        {
+            Mock<IContractRepository> mock = new Mock<IContractRepository>();
+            ContractController controller = new ContractController(mock.Object);
+
+            Contract contract = new Contract()
+            {
+                Id = new Guid()
+            };
+
+            contract.Id = new Guid();
+
+            mock.Setup(t => t.Update(It.IsAny<Contract>())).Verifiable();
+
+            await controller.UpdateContract(contract);
+
+            mock.VerifyAll();
+        }
     }
 }

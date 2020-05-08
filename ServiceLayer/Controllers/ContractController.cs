@@ -7,16 +7,12 @@
     using DataMapper.Interfaces;
     using DistribuitorServiciiMobile.Models;
     using FluentValidation.Results;
-    using ServiceLayer.Validation;
 
     /// <summary>Service layer controller for the Contract entity</summary>
     public class ContractController
     {
         /// <summary>The contract repository</summary>
         private IContractRepository contractRepository;
-
-        /// <summary>The contract validation</summary>
-        private ContractValidation contractValidation;
 
         /// <summary>Initializes a new instance of the <see cref="ContractController" /> class.</summary>
         /// <param name="repository">The repository.</param>
@@ -37,12 +33,7 @@
         /// <returns>Awaitable task</returns>
         public async Task AddContract(Contract contract)
         {
-            this.contractValidation = new ContractValidation();
-            ValidationResult results = this.contractValidation.Validate(contract);
-            if (results.Errors.Count == 0)
-            {
-                await this.contractRepository.Insert(contract);
-            }
+            await this.contractRepository.Insert(contract);
         }
 
         /// <summary>Deletes the contract.</summary>
@@ -51,6 +42,16 @@
         public async Task DeleteContract(Contract contract)
         {
             await this.contractRepository.Delete(contract);
+        }
+
+        public async Task DeleteContractByID(int id)
+        {
+            await this.contractRepository.Delete(id);
+        }
+
+        public async Task UpdateContract(Contract contract)
+        {
+            await this.contractRepository.Update(contract);
         }
     }
 }

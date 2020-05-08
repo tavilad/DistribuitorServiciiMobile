@@ -7,16 +7,12 @@
     using DataMapper.Interfaces;
     using DistribuitorServiciiMobile.Models;
     using FluentValidation.Results;
-    using ServiceLayer.Validation;
 
     /// <summary>Service layer controller for the DateMobile entity</summary>
     public class DateMobileController
     {
         /// <summary>The date repository</summary>
         private IDateRepository dateRepository;
-
-        /// <summary>The date validation</summary>
-        private DateValidation dateValidation;
 
         /// <summary>Initializes a new instance of the <see cref="DateMobileController" /> class.</summary>
         /// <param name="repository">The repository.</param>
@@ -37,12 +33,7 @@
         /// <returns>Awaitable task</returns>
         public async Task AddDate(DateMobile date)
         {
-            this.dateValidation = new DateValidation();
-            ValidationResult results = this.dateValidation.Validate(date);
-            if (results.Errors.Count == 0)
-            {
-                await this.dateRepository.Insert(date);
-            }
+            await this.dateRepository.Insert(date);
         }
 
         /// <summary>Deletes the date.</summary>
@@ -51,6 +42,16 @@
         public async Task DeleteDate(DateMobile date)
         {
             await this.dateRepository.Delete(date);
+        }
+
+        public async Task DeleteDateByID(int id)
+        {
+            await this.dateRepository.Delete(id);
+        }
+
+        public async Task UpdateDate(DateMobile date)
+        {
+            await this.dateRepository.Update(date);
         }
     }
 }

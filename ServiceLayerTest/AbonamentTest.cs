@@ -75,5 +75,38 @@ namespace ServiceLayerTest
 
             Assert.AreEqual(2, found.Count());
         }
+
+        [TestMethod]
+        public async Task TestDeleteById()
+        {
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            repositoryMock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
+
+            await abonamentController.DeleteAbonamentByID(1);
+
+            repositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate()
+        {
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            Abonament abonament = new Abonament()
+            {
+                Id = new Guid()
+            };
+
+            abonament.DataInceput = DateTime.Today;
+
+            repositoryMock.Setup(t => t.Update(It.IsAny<Abonament>())).Verifiable();
+
+            await abonamentController.UpdateAbonament(abonament);
+
+            repositoryMock.VerifyAll();
+        }
     }
 }

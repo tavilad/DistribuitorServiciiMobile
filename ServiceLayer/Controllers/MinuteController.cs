@@ -7,7 +7,7 @@
     using DataMapper.Interfaces;
     using DistribuitorServiciiMobile.Models;
     using FluentValidation.Results;
-    using ServiceLayer.Validation;
+
 
     /// <summary>Service layer controller for the Minute entity</summary>
     public class MinuteController
@@ -15,8 +15,6 @@
         /// <summary>The minute repository</summary>
         private IMinuteRepository minuteRepository;
 
-        /// <summary>The minute validation</summary>
-        private MinuteValidation minuteValidation;
 
         /// <summary>Initializes a new instance of the <see cref="MinuteController" /> class.</summary>
         /// <param name="repository">The repository.</param>
@@ -37,12 +35,7 @@
         /// <returns>Awaitable task</returns>
         public async Task AddMinute(Minute minute)
         {
-            this.minuteValidation = new MinuteValidation();
-            ValidationResult results = this.minuteValidation.Validate(minute);
-            if (results.Errors.Count == 0)
-            {
-                await this.minuteRepository.Insert(minute);
-            }
+            await this.minuteRepository.Insert(minute);
         }
 
         /// <summary>Deletes the minute.</summary>
@@ -51,6 +44,16 @@
         public async Task DeleteMinute(Minute minute)
         {
             await this.minuteRepository.Delete(minute);
+        }
+
+        public async Task DeleteMinuteByID(int id)
+        {
+            await this.minuteRepository.Delete(id);
+        }
+
+        public async Task UpdateMinute(Minute minute)
+        {
+            await this.minuteRepository.Update(minute);
         }
     }
 }

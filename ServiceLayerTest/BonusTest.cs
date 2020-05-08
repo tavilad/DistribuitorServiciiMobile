@@ -72,5 +72,38 @@ namespace ServiceLayerTest
 
             Assert.AreEqual(2, found.Count());
         }
+
+        [TestMethod]
+        public async Task TestDeleteById()
+        {
+            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
+            BonusController controller = new BonusController(repositoryMock.Object);
+
+            repositoryMock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
+
+            await controller.DeleteBonusByID(1);
+
+            repositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate()
+        {
+            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
+            BonusController controller = new BonusController(repositoryMock.Object);
+
+            Bonus bonus = new Bonus()
+            {
+                Id = new Guid()
+            };
+
+            bonus.MinuteBonus = 1000;
+
+            repositoryMock.Setup(t => t.Update(It.IsAny<Bonus>())).Verifiable();
+
+            await controller.UpdateBonus(bonus);
+
+            repositoryMock.VerifyAll();
+        }
     }
 }

@@ -7,16 +7,12 @@
     using DataMapper.Interfaces;
     using DistribuitorServiciiMobile.Models;
     using FluentValidation.Results;
-    using ServiceLayer.Validation;
 
     /// <summary>Service layer controller for the Client entity</summary>
     public class ClientController
     {
         /// <summary>The client repository</summary>
         private IClientRepository clientRepository;
-
-        /// <summary>The client validation</summary>
-        private ClientValidation clientValidation;
 
         /// <summary>Initializes a new instance of the <see cref="ClientController" /> class.</summary>
         /// <param name="repository">The repository.</param>
@@ -37,12 +33,7 @@
         /// <returns>Awaitable task</returns>
         public async Task AddClient(Client client)
         {
-            this.clientValidation = new ClientValidation();
-            ValidationResult results = this.clientValidation.Validate(client);
-            if (results.Errors.Count == 0)
-            {
-                await this.clientRepository.Insert(client);
-            }
+            await this.clientRepository.Insert(client);
         }
 
         /// <summary>Deletes the client.</summary>
@@ -51,6 +42,16 @@
         public async Task DeleteClient(Client client)
         {
             await this.clientRepository.Delete(client);
+        }
+
+        public async Task DeleteClientByID(int id)
+        {
+            await this.clientRepository.Delete(id);
+        }
+
+        public async Task UpdateClient(Client client)
+        {
+            await this.clientRepository.Update(client);
         }
     }
 }

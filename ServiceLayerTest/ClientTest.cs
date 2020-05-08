@@ -71,5 +71,38 @@ namespace ServiceLayerTest
 
             Assert.AreEqual(2, found.Count());
         }
+
+        [TestMethod]
+        public async Task TestDeleteById()
+        {
+            Mock<IClientRepository> repositoryMock = new Mock<IClientRepository>();
+            ClientController controller = new ClientController(repositoryMock.Object);
+
+            repositoryMock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
+
+            await controller.DeleteClientByID(1);
+
+            repositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdate()
+        {
+            Mock<IClientRepository> repositoryMock = new Mock<IClientRepository>();
+            ClientController controller = new ClientController(repositoryMock.Object);
+
+            Client client = new Client()
+            {
+                Id = new Guid()
+            };
+
+            client.FirstName = "Gion";
+
+            repositoryMock.Setup(t => t.Update(It.IsAny<Client>())).Verifiable();
+
+            await controller.UpdateClient(client);
+
+            repositoryMock.VerifyAll();
+        }
     }
 }
