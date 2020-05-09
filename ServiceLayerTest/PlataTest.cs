@@ -93,7 +93,7 @@ namespace ServiceLayerTest
                 Id = new Guid()
             };
 
-            plata.TotalDePlata = 100;
+            plata.TotalDePlata = new Pret();
 
             mock.Setup(t => t.Update(It.IsAny<Plata>())).Verifiable();
 

@@ -23,16 +23,16 @@ namespace TestDomainModel
         public void TestDataInceputProperty()
         {
             Abonament abonament = new Abonament();
-            abonament.DataInceput = DateTime.Today;
-            Assert.AreEqual(DateTime.Today, abonament.DataInceput);
+            abonament.DataInceput = DateTime.Today.AddDays(1);
+            Assert.AreEqual(DateTime.Today.AddDays(1), abonament.DataInceput);
         }
 
         [TestMethod]
         public void TestDataSfarsitProperty()
         {
             Abonament abonament = new Abonament();
-            abonament.DataSfarsit = DateTime.Today;
-            Assert.AreEqual(DateTime.Today, abonament.DataSfarsit);
+            abonament.DataSfarsit = DateTime.Today.AddDays(1);
+            Assert.AreEqual(DateTime.Today.AddDays(1), abonament.DataSfarsit);
         }
 
         [TestMethod]

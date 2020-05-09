@@ -1,5 +1,6 @@
 ﻿namespace DistribuitorServiciiMobile.Models
 {
+    using DomainModel.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -22,5 +23,12 @@
         [Required]
         [Range(0, int.MaxValue)]
         public int NumarMinute { get; set; }
+
+        [Required]
+        [Range(0, int.MaxValue)]
+        public int MinuteConsumate { get; set; }
+
+        [Required]
+        public virtual Pret PretMinute { get; set; }
     }
 }

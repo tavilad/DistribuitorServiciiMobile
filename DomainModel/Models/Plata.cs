@@ -20,7 +20,10 @@ namespace DomainModel.Models
         public Contract Contract { get; set; }
 
         [Required]
+        public virtual Pret TotalDePlata { get; set; }
+
+        [Required]
         [Range(0, double.MaxValue)]
-        public double TotalDePlata { get; set; }
+        public virtual Pret SumaPlatita { get; set; }
     }
 }

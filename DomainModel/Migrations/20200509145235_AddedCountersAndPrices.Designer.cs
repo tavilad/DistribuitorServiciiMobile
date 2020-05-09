@@ -4,14 +4,16 @@ using DistribuitorServiciiMobile.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainModel.Migrations
 {
     [DbContext(typeof(DistribuitorServiciiMobileContext))]
-    partial class DistribuitorServiciiMobileContextModelSnapshot : ModelSnapshot
+    [Migration("20200509145235_AddedCountersAndPrices")]
+    partial class AddedCountersAndPrices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,8 +133,8 @@ namespace DomainModel.Migrations
                     b.Property<int>("NumarDate")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PretDataId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PretData")
+                        .HasColumnType("int");
 
                     b.Property<string>("TipDate")
                         .IsRequired()
@@ -142,8 +144,6 @@ namespace DomainModel.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AbonamentId");
-
-                    b.HasIndex("PretDataId");
 
                     b.ToTable("DateMobile");
                 });
@@ -163,8 +163,8 @@ namespace DomainModel.Migrations
                     b.Property<int>("NumarMinute")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PretMinuteId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PretMinute")
+                        .HasColumnType("int");
 
                     b.Property<string>("TipMinute")
                         .IsRequired()
@@ -174,8 +174,6 @@ namespace DomainModel.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AbonamentId");
-
-                    b.HasIndex("PretMinuteId");
 
                     b.ToTable("Minute");
                 });
@@ -192,8 +190,8 @@ namespace DomainModel.Migrations
                     b.Property<int>("NumarSms")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("PretSmsId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PretSms")
+                        .HasColumnType("int");
 
                     b.Property<int>("SmsConsumate")
                         .HasColumnType("int");
@@ -206,8 +204,6 @@ namespace DomainModel.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AbonamentId");
-
-                    b.HasIndex("PretSmsId");
 
                     b.ToTable("Sms");
                 });
@@ -254,11 +250,11 @@ namespace DomainModel.Migrations
                     b.Property<DateTime>("DataPlata")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("SumaPlatitaId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<double>("SumaPlatita")
+                        .HasColumnType("float");
 
-                    b.Property<Guid>("TotalDePlataId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<double>("TotalDePlata")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -266,30 +262,7 @@ namespace DomainModel.Migrations
 
                     b.HasIndex("ContractId");
 
-                    b.HasIndex("SumaPlatitaId");
-
-                    b.HasIndex("TotalDePlataId");
-
                     b.ToTable("Plati");
-                });
-
-            modelBuilder.Entity("DomainModel.Models.Pret", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<double>("Suma")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Valuta")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Preturi");
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Bonus", b =>
@@ -321,12 +294,6 @@ namespace DomainModel.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.Abonament", null)
                         .WithMany("AbonamentDate")
                         .HasForeignKey("AbonamentId");
-
-                    b.HasOne("DomainModel.Models.Pret", "PretData")
-                        .WithMany()
-                        .HasForeignKey("PretDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.Minute", b =>
@@ -334,12 +301,6 @@ namespace DomainModel.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.Abonament", null)
                         .WithMany("AbonamentMinute")
                         .HasForeignKey("AbonamentId");
-
-                    b.HasOne("DomainModel.Models.Pret", "PretMinute")
-                        .WithMany()
-                        .HasForeignKey("PretMinuteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DistribuitorServiciiMobile.Models.SMS", b =>
@@ -347,12 +308,6 @@ namespace DomainModel.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.Abonament", null)
                         .WithMany("AbonamentSms")
                         .HasForeignKey("AbonamentId");
-
-                    b.HasOne("DomainModel.Models.Pret", "PretSms")
-                        .WithMany()
-                        .HasForeignKey("PretSmsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DomainModel.Models.ConvorbireTelefonica", b =>
@@ -381,18 +336,6 @@ namespace DomainModel.Migrations
                     b.HasOne("DistribuitorServiciiMobile.Models.Contract", "Contract")
                         .WithMany()
                         .HasForeignKey("ContractId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DomainModel.Models.Pret", "SumaPlatita")
-                        .WithMany()
-                        .HasForeignKey("SumaPlatitaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DomainModel.Models.Pret", "TotalDePlata")
-                        .WithMany()
-                        .HasForeignKey("TotalDePlataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

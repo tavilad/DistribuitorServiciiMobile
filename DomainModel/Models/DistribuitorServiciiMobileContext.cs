@@ -56,6 +56,8 @@
         /// <value>The plati.</value>
         public virtual DbSet<Plata> Plati { get; set; }
 
+        public virtual DbSet<Pret> Preturi { get; set; }
+
         /// <summary>
         ///   <para>
         /// Override this method to configure the database (and other options) to be used for this context.

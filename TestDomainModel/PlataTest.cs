@@ -42,8 +42,9 @@ namespace TestDomainModel
         public void TestTotalDePlataProperty()
         {
             Plata plata = new Plata();
-            plata.TotalDePlata = 1000;
-            Assert.AreEqual(1000, plata.TotalDePlata);
+            Pret pret = new Pret();
+            plata.TotalDePlata = pret;
+            Assert.AreEqual(pret, plata.TotalDePlata);
         }
 
         [TestMethod]
@@ -58,7 +59,7 @@ namespace TestDomainModel
         public void TestTotalDePlataNegativ()
         {
             Plata plata = new Plata();
-            plata.TotalDePlata = -2;
+            plata.TotalDePlata = new Pret() { Suma = -2 };
 
             ValidationContext context = new ValidationContext(plata, null, null) { MemberName = "TotalDePlata" };
 

@@ -1,5 +1,6 @@
 namespace DistribuitorServiciiMobile.Models
 {
+    using DomainModel.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -22,5 +23,12 @@ namespace DistribuitorServiciiMobile.Models
         /// <summary>Gets or sets the numar date.</summary>
         /// <value>The numar date.</value>
         public int NumarDate { get; set; }
+
+        [Required]
+        [Range(0, int.MaxValue)]
+        public int DateConsumate { get; set; }
+
+        [Required]
+        public virtual Pret PretData { get; set; }
     }
 }

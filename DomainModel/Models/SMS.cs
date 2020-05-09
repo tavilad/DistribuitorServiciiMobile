@@ -1,5 +1,6 @@
 namespace DistribuitorServiciiMobile.Models
 {
+    using DomainModel.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -22,5 +23,13 @@ namespace DistribuitorServiciiMobile.Models
         /// <summary>Gets or sets the numar SMS.</summary>
         /// <value>The numar SMS.</value>
         public int NumarSms { get; set; }
+
+        [Required]
+        [Range(0, int.MaxValue)]
+        public int SmsConsumate { get; set; }
+
+        [Required]
+        [Range(0, int.MaxValue)]
+        public virtual Pret PretSms { get; set; }
     }
 }

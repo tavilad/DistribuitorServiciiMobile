@@ -23,7 +23,7 @@ namespace ServiceLayerTest
             Abonament abonament = new Abonament()
             {
                 Pret = 1000,
-                DataInceput = DateTime.Now,
+                DataInceput = DateTime.Now.AddDays(1),
                 DataSfarsit = new DateTime(2020, 9, 14),
                 NumeAbonament = "Abonament Digi"
             };
@@ -44,7 +44,7 @@ namespace ServiceLayerTest
             Abonament abonament = new Abonament()
             {
                 Pret = 1000,
-                DataInceput = DateTime.Now,
+                DataInceput = DateTime.Now.AddDays(1),
                 DataSfarsit = new DateTime(2020, 9, 14),
                 NumeAbonament = "Abonament Digi"
             };
@@ -65,7 +65,15 @@ namespace ServiceLayerTest
             Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
             AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
 
-            Abonament[] abonamente = { new Abonament { Id = new Guid() }, new Abonament { Id = new Guid() } };
+            Abonament[] abonamente = {
+                new Abonament { Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi" },
+                new Abonament { Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi" }};
 
             repositoryMock.Setup(t => t.Get(
                 It.IsAny<Expression<Func<Abonament, bool>>>(),
@@ -97,10 +105,13 @@ namespace ServiceLayerTest
 
             Abonament abonament = new Abonament()
             {
-                Id = new Guid()
+                Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi"
             };
 
-            abonament.DataInceput = DateTime.Today;
+            abonament.DataInceput = DateTime.Now.AddDays(2);
 
             repositoryMock.Setup(t => t.Update(It.IsAny<Abonament>())).Verifiable();
 
