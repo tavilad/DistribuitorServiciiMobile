@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace TestDomainModel
@@ -32,6 +34,46 @@ namespace TestDomainModel
             DateMobile date = new DateMobile();
             date.NumarDate = 100;
             Assert.AreEqual(100, date.NumarDate);
+        }
+
+        [TestMethod]
+        public void TestTipDateNull()
+        {
+            DateMobile date = new DateMobile();
+            ValidationContext context = new ValidationContext(date, null, null) { MemberName = "TipDate" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(date.TipDate, context); });
+        }
+
+        [TestMethod]
+        public void TestNumarDateNegativ()
+        {
+            DateMobile date = new DateMobile();
+            date.NumarDate = -2;
+            ValidationContext context = new ValidationContext(date, null, null) { MemberName = "NumarDate" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(date.NumarDate, context); });
+        }
+
+        [TestMethod]
+        public void TestTipDateScurt()
+        {
+            DateMobile date = new DateMobile();
+            date.TipDate = "A";
+            ValidationContext context = new ValidationContext(date, null, null) { MemberName = "TipDate" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(date.TipDate, context); });
+        }
+
+        [TestMethod]
+        public void TestTipDateLung()
+        {
+            DateMobile date = new DateMobile();
+            string nume = Enumerable.Repeat("a", 51).Aggregate((a, b) => a + b);
+            date.TipDate = nume;
+            ValidationContext context = new ValidationContext(date, null, null) { MemberName = "TipDate" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(date.TipDate, context); });
         }
     }
 }

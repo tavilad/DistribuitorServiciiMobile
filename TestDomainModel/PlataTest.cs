@@ -3,6 +3,7 @@ using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace TestDomainModel
@@ -51,6 +52,17 @@ namespace TestDomainModel
             Plata plata = new Plata();
             plata.DataPlata = DateTime.Today;
             Assert.AreEqual(DateTime.Today, plata.DataPlata);
+        }
+
+        [TestMethod]
+        public void TestTotalDePlataNegativ()
+        {
+            Plata plata = new Plata();
+            plata.TotalDePlata = -2;
+
+            ValidationContext context = new ValidationContext(plata, null, null) { MemberName = "TotalDePlata" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(plata.TotalDePlata, context); });
         }
     }
 }

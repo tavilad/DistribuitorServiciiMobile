@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace TestDomainModel
@@ -52,6 +53,17 @@ namespace TestDomainModel
             ConvorbireTelefonica convorbire = new ConvorbireTelefonica();
             convorbire.DataApel = DateTime.Today;
             Assert.AreEqual(DateTime.Today, convorbire.DataApel);
+        }
+
+        [TestMethod]
+        public void TestDurataApelNegativ()
+        {
+            ConvorbireTelefonica convorbire = new ConvorbireTelefonica();
+            convorbire.DurataConvorbire = -2;
+
+            ValidationContext context = new ValidationContext(convorbire, null, null) { MemberName = "DurataConvorbire" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(convorbire.DurataConvorbire, context); });
         }
     }
 }

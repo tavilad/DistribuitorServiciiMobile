@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 
 namespace TestDomainModel
@@ -32,6 +34,46 @@ namespace TestDomainModel
             SMS sms = new SMS();
             sms.NumarSms = 1000;
             Assert.AreEqual(1000, sms.NumarSms);
+        }
+
+        [TestMethod]
+        public void TestTipSmsNull()
+        {
+            SMS sms = new SMS();
+            ValidationContext context = new ValidationContext(sms, null, null) { MemberName = "TipSms" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(sms.TipSms, context); });
+        }
+
+        [TestMethod]
+        public void TestNumarSmsNegativ()
+        {
+            SMS sms = new SMS();
+            sms.NumarSms = -2;
+            ValidationContext context = new ValidationContext(sms, null, null) { MemberName = "NumarSms" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(sms.NumarSms, context); });
+        }
+
+        [TestMethod]
+        public void TestTipSmsScurt()
+        {
+            SMS sms = new SMS();
+            sms.TipSms = "a";
+            ValidationContext context = new ValidationContext(sms, null, null) { MemberName = "TipSms" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(sms.TipSms, context); });
+        }
+
+        [TestMethod]
+        public void TestTipSmsLung()
+        {
+            SMS sms = new SMS();
+            string nume = Enumerable.Repeat("a", 51).Aggregate((a, b) => a + b);
+            sms.TipSms = nume;
+            ValidationContext context = new ValidationContext(sms, null, null) { MemberName = "TipSms" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(sms.TipSms, context); });
         }
     }
 }
