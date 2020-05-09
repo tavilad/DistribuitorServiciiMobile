@@ -2,31 +2,33 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>The Abonament Entity Model</summary>
     public partial class Abonament
     {
-        /// <summary>Initializes a new instance of the <see cref="Abonament" /> class.</summary>
-        public Abonament()
-        {
-        }
-
         /// <summary>Gets or sets the identifier.</summary>
         /// <value>The identifier.</value>
         public Guid Id { get; set; }
 
+        [Required]
+        [Range(0, double.MaxValue)]
         /// <summary>Gets or sets the pret.</summary>
         /// <value>The pret.</value>
         public double Pret { get; set; }
 
+        [Required]
         /// <summary>Gets or sets the data inceput.</summary>
         /// <value>The data inceput.</value>
         public DateTime DataInceput { get; set; }
 
+        [Required]
         /// <summary>Gets or sets the data sfarsit.</summary>
         /// <value>The data sfarsit.</value>
         public DateTime DataSfarsit { get; set; }
 
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
         public string NumeAbonament { get; set; }
 
         /// <summary>Gets or sets the abonament minute.</summary>
