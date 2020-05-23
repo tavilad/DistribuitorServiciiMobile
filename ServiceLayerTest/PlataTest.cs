@@ -101,5 +101,18 @@ namespace ServiceLayerTest
 
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
+            PlataController controller = new PlataController(mock.Object);
+
+            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Plata());
+
+            Plata plata = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(plata);
+        }
     }
 }

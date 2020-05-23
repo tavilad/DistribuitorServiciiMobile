@@ -104,5 +104,18 @@ namespace ServiceLayerTest
 
             repositoryMock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IClientRepository> repositoryMock = new Mock<IClientRepository>();
+            ClientController controller = new ClientController(repositoryMock.Object);
+
+            repositoryMock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Client());
+
+            Client client = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(client);
+        }
     }
 }

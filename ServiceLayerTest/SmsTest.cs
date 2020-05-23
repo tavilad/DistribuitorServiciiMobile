@@ -102,5 +102,18 @@ namespace ServiceLayerTest
 
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<ISmsRepository> mock = new Mock<ISmsRepository>();
+            SmsController controller = new SmsController(mock.Object);
+
+            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new SMS());
+
+            SMS sms = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(sms);
+        }
     }
 }

@@ -101,5 +101,18 @@ namespace ServiceLayerTest
 
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
+            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
+
+            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new ConvorbireTelefonica());
+
+            ConvorbireTelefonica convorbire = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(convorbire);
+        }
     }
 }

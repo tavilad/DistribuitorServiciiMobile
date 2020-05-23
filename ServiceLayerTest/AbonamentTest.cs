@@ -119,5 +119,18 @@ namespace ServiceLayerTest
 
             repositoryMock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            repositoryMock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Abonament());
+
+            Abonament abonament = await abonamentController.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(abonament);
+        }
     }
 }

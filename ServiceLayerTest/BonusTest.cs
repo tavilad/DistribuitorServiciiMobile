@@ -105,5 +105,18 @@ namespace ServiceLayerTest
 
             repositoryMock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
+            BonusController bonusController = new BonusController(repositoryMock.Object);
+
+            repositoryMock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Bonus());
+
+            Bonus bonus = await bonusController.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(bonus);
+        }
     }
 }

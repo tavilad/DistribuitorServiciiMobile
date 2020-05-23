@@ -101,5 +101,18 @@ namespace ServiceLayerTest
 
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IMinuteRepository> mock = new Mock<IMinuteRepository>();
+            MinuteController controller = new MinuteController(mock.Object);
+
+            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Minute());
+
+            Minute minute = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(minute);
+        }
     }
 }

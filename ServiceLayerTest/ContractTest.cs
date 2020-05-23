@@ -101,5 +101,18 @@ namespace ServiceLayerTest
 
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IContractRepository> mock = new Mock<IContractRepository>();
+            ContractController controller = new ContractController(mock.Object);
+
+            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Contract());
+
+            Contract contract = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(contract);
+        }
     }
 }

@@ -101,5 +101,18 @@ namespace ServiceLayerTest
 
             mock.VerifyAll();
         }
+
+        [TestMethod]
+        public async Task TestGetById()
+        {
+            Mock<IDateRepository> mock = new Mock<IDateRepository>();
+            DateMobileController controller = new DateMobileController(mock.Object);
+
+            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new DateMobile());
+
+            DateMobile date = await controller.GetById(Guid.NewGuid());
+
+            Assert.IsNotNull(date);
+        }
     }
 }

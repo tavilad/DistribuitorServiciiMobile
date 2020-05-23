@@ -16,7 +16,7 @@ namespace ServiceLayer.Controllers
             this.pretRepository = repository;
         }
 
-        public async Task<IEnumerable<Pret>> GetAllAbonament()
+        public async Task<IEnumerable<Pret>> GetAllPret()
         {
             return await this.pretRepository.Get(pret => pret != null, null, string.Empty);
         }
