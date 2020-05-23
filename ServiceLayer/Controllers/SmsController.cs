@@ -53,5 +53,10 @@
         {
             await this.smsRepository.Update(sms);
         }
+
+        public async Task<SMS> GetById(object id)
+        {
+            return await this.smsRepository.GetById(id);
+        }
     }
 }

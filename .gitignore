@@ -46,7 +46,6 @@ build/
 *.vssscc
 .builds
 *.pidb
-*.log
 *.scc
 
 # OS generated files #
@@ -202,3 +201,4 @@ $RECYCLE.BIN/
 #####
 # End of core ignore list, below put you custom 'per project' settings (patterns or path)
 #####
+*.bak

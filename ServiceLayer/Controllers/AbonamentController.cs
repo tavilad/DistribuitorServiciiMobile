@@ -53,5 +53,10 @@
         {
             await this.abonamentRepository.Update(abonament);
         }
+
+        public async Task<Abonament> GetById(object id)
+        {
+            return await this.abonamentRepository.GetById(id);
+        }
     }
 }

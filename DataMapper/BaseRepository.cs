@@ -21,7 +21,7 @@
         /// <returns>Task.</returns>
         public async Task Delete(int id)
         {
-            await this.Delete(await this.GetByID(id));
+            await this.Delete(await this.GetById(id));
         }
 
         /// <summary>Deletes the specified entity.</summary>
@@ -110,7 +110,7 @@
         /// <summary>Gets the by identifier.</summary>
         /// <param name="id">The identifier.</param>
         /// <returns>Task.</returns>
-        public async Task<T> GetByID(object id)
+        public async Task<T> GetById(object id)
         {
             using (DistribuitorServiciiMobileContext context = new DistribuitorServiciiMobileContext())
             {

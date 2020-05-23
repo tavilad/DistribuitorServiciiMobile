@@ -43,5 +43,10 @@ namespace ServiceLayer.Controllers
         {
             await this.convorbireRepository.Update(convorbire);
         }
+
+        public async Task<ConvorbireTelefonica> GetById(object id)
+        {
+            return await this.convorbireRepository.GetById(id);
+        }
     }
 }

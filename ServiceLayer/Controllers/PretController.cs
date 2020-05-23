@@ -41,5 +41,10 @@ namespace ServiceLayer.Controllers
         {
             await this.pretRepository.Update(pret);
         }
+
+        public async Task<Pret> GetById(object id)
+        {
+            return await this.pretRepository.GetById(id);
+        }
     }
 }

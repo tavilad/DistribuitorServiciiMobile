@@ -43,5 +43,10 @@ namespace ServiceLayer.Controllers
         {
             await this.plataRepository.Update(plata);
         }
+
+        public async Task<Plata> GetById(object id)
+        {
+            return await this.plataRepository.GetById(id);
+        }
     }
 }

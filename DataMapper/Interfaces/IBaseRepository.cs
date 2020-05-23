@@ -39,5 +39,7 @@
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string includeProperties = "");
+
+        Task<T> GetById(object id);
     }
 }

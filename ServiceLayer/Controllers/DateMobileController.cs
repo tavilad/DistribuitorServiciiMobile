@@ -53,5 +53,10 @@
         {
             await this.dateRepository.Update(date);
         }
+
+        public async Task<DateMobile> GetById(object id)
+        {
+            return await this.dateRepository.GetById(id);
+        }
     }
 }

@@ -53,5 +53,10 @@
         {
             await this.contractRepository.Update(contract);
         }
+
+        public async Task<Contract> GetById(object id)
+        {
+            return await this.contractRepository.GetById(id);
+        }
     }
 }

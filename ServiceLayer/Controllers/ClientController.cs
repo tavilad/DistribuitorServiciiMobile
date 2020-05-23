@@ -53,5 +53,10 @@
         {
             await this.clientRepository.Update(client);
         }
+
+        public async Task<Client> GetById(object id)
+        {
+            return await this.clientRepository.GetById(id);
+        }
     }
 }

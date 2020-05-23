@@ -55,5 +55,10 @@
         {
             await this.minuteRepository.Update(minute);
         }
+
+        public async Task<Minute> GetById(object id)
+        {
+            return await this.minuteRepository.GetById(id);
+        }
     }
 }

@@ -53,5 +53,10 @@
         {
             await this.bonusRepository.Update(bonus);
         }
+
+        public async Task<Bonus> GetById(object id)
+        {
+            return await this.bonusRepository.GetById(id);
+        }
     }
 }
