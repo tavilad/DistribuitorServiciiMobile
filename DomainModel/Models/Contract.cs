@@ -21,5 +21,7 @@
         /// <summary>Gets or sets the abonament.</summary>
         /// <value>The abonament.</value>
         public virtual Abonament Abonament { get; set; }
+
+        public bool Valabil { get; set; }
     }
 }

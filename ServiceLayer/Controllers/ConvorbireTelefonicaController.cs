@@ -25,12 +25,22 @@ namespace ServiceLayer.Controllers
 
         public async Task AddConvorbire(ConvorbireTelefonica convorbire)
         {
+            if (convorbire == null)
+            {
+                throw new ArgumentNullException(nameof(convorbire));
+            }
+
             await this.convorbireRepository.Insert(convorbire);
         }
 
 
         public async Task DeleteConvorbire(ConvorbireTelefonica convorbire)
         {
+            if (convorbire == null)
+            {
+                throw new ArgumentNullException(nameof(convorbire));
+            }
+
             await this.convorbireRepository.Delete(convorbire);
         }
 
@@ -41,6 +51,11 @@ namespace ServiceLayer.Controllers
 
         public async Task UpdateConvorbire(ConvorbireTelefonica convorbire)
         {
+            if (convorbire == null)
+            {
+                throw new ArgumentNullException(nameof(convorbire));
+            }
+
             await this.convorbireRepository.Update(convorbire);
         }
 

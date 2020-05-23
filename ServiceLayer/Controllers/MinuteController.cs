@@ -35,6 +35,11 @@
         /// <returns>Awaitable task</returns>
         public async Task AddMinute(Minute minute)
         {
+            if (minute == null)
+            {
+                throw new ArgumentNullException(nameof(minute));
+            }
+
             await this.minuteRepository.Insert(minute);
         }
 
@@ -43,6 +48,11 @@
         /// <returns>Awaitable task</returns>
         public async Task DeleteMinute(Minute minute)
         {
+            if (minute == null)
+            {
+                throw new ArgumentNullException(nameof(minute));
+            }
+
             await this.minuteRepository.Delete(minute);
         }
 
@@ -53,6 +63,11 @@
 
         public async Task UpdateMinute(Minute minute)
         {
+            if (minute == null)
+            {
+                throw new ArgumentNullException(nameof(minute));
+            }
+
             await this.minuteRepository.Update(minute);
         }
 

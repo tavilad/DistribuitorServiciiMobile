@@ -24,11 +24,21 @@ namespace ServiceLayer.Controllers
 
         public async Task AddPret(Pret pret)
         {
+            if (pret == null)
+            {
+                throw new ArgumentNullException(nameof(pret));
+            }
+
             await this.pretRepository.Insert(pret);
         }
 
         public async Task DeletePret(Pret pret)
         {
+            if (pret == null)
+            {
+                throw new ArgumentNullException(nameof(pret));
+            }
+
             await this.pretRepository.Delete(pret);
         }
 
@@ -39,6 +49,11 @@ namespace ServiceLayer.Controllers
 
         public async Task UpdatePret(Pret pret)
         {
+            if (pret == null)
+            {
+                throw new ArgumentNullException(nameof(pret));
+            }
+
             await this.pretRepository.Update(pret);
         }
 

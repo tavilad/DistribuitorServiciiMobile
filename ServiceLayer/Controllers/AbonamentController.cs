@@ -33,6 +33,11 @@
         /// <returns>Awaitable task</returns>
         public async Task AddAbonament(Abonament abonament)
         {
+            if (abonament == null)
+            {
+                throw new ArgumentNullException(nameof(abonament));
+            }
+
             await this.abonamentRepository.Insert(abonament);
         }
 
@@ -41,6 +46,11 @@
         /// <returns>Awaitable task</returns>
         public async Task DeleteAbonament(Abonament abonament)
         {
+            if (abonament == null)
+            {
+                throw new ArgumentNullException(nameof(abonament));
+            }
+
             await this.abonamentRepository.Delete(abonament);
         }
 
@@ -51,6 +61,11 @@
 
         public async Task UpdateAbonament(Abonament abonament)
         {
+            if (abonament == null)
+            {
+                throw new ArgumentNullException(nameof(abonament));
+            }
+
             await this.abonamentRepository.Update(abonament);
         }
 

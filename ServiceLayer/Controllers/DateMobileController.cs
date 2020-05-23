@@ -33,6 +33,11 @@
         /// <returns>Awaitable task</returns>
         public async Task AddDate(DateMobile date)
         {
+            if (date == null)
+            {
+                throw new ArgumentNullException(nameof(date));
+            }
+
             await this.dateRepository.Insert(date);
         }
 
@@ -41,6 +46,11 @@
         /// <returns>Awaitable task</returns>
         public async Task DeleteDate(DateMobile date)
         {
+            if (date == null)
+            {
+                throw new ArgumentNullException(nameof(date));
+            }
+
             await this.dateRepository.Delete(date);
         }
 
@@ -51,6 +61,11 @@
 
         public async Task UpdateDate(DateMobile date)
         {
+            if (date == null)
+            {
+                throw new ArgumentNullException(nameof(date));
+            }
+
             await this.dateRepository.Update(date);
         }
 

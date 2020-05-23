@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using DataMapper.Interfaces;
     using DistribuitorServiciiMobile.Models;
+    using DomainModel.Models;
     using FluentValidation.Results;
 
     /// <summary>Service layer controller for the Contract entity</summary>
@@ -33,6 +34,11 @@
         /// <returns>Awaitable task</returns>
         public async Task AddContract(Contract contract)
         {
+            if (contract == null)
+            {
+                throw new ArgumentNullException(nameof(contract));
+            }
+
             await this.contractRepository.Insert(contract);
         }
 
@@ -41,6 +47,11 @@
         /// <returns>Awaitable task</returns>
         public async Task DeleteContract(Contract contract)
         {
+            if (contract == null)
+            {
+                throw new ArgumentNullException(nameof(contract));
+            }
+
             await this.contractRepository.Delete(contract);
         }
 
@@ -51,12 +62,32 @@
 
         public async Task UpdateContract(Contract contract)
         {
+            if (contract == null)
+            {
+                throw new ArgumentNullException(nameof(contract));
+            }
+
             await this.contractRepository.Update(contract);
         }
 
         public async Task<Contract> GetById(object id)
         {
             return await this.contractRepository.GetById(id);
+        }
+
+        public async Task<Pret> InchidereContract()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Contract> PrelungireContract()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Pret> CalculPret()
+        {
+            throw new NotImplementedException();
         }
     }
 }

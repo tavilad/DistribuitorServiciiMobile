@@ -33,6 +33,11 @@
         /// <returns>Awaitable task</returns>
         public async Task AddBonus(Bonus bonus)
         {
+            if (bonus == null)
+            {
+                throw new ArgumentNullException(nameof(bonus));
+            }
+
             await this.bonusRepository.Insert(bonus);
         }
 
@@ -41,6 +46,11 @@
         /// <returns>Awaitable task</returns>
         public async Task DeleteBonus(Bonus bonus)
         {
+            if (bonus == null)
+            {
+                throw new ArgumentNullException(nameof(bonus));
+            }
+
             await this.bonusRepository.Delete(bonus);
         }
 
@@ -51,6 +61,11 @@
 
         public async Task UpdateBonus(Bonus bonus)
         {
+            if (bonus == null)
+            {
+                throw new ArgumentNullException(nameof(bonus));
+            }
+
             await this.bonusRepository.Update(bonus);
         }
 

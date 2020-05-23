@@ -70,6 +70,8 @@
         [StringLength(50, MinimumLength = 2)]
         public string NumeAbonament { get; set; }
 
+        public bool Expirat { get; set; }
+
         /// <summary>Gets or sets the abonament minute.</summary>
         /// <value>The abonament minute.</value>
         public virtual ICollection<Minute> AbonamentMinute { get; set; }

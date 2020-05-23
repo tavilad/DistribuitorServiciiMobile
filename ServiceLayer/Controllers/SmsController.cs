@@ -33,6 +33,11 @@
         /// <returns>Awaitable task</returns>
         public async Task AddSms(SMS sms)
         {
+            if (sms == null)
+            {
+                throw new ArgumentNullException(nameof(sms));
+            }
+
             await this.smsRepository.Insert(sms);
         }
 
@@ -41,6 +46,11 @@
         /// <returns>Awaitable task</returns>
         public async Task DeleteSms(SMS sms)
         {
+            if (sms == null)
+            {
+                throw new ArgumentNullException(nameof(sms));
+            }
+
             await this.smsRepository.Delete(sms);
         }
 
@@ -51,6 +61,11 @@
 
         public async Task UpdateSms(SMS sms)
         {
+            if (sms == null)
+            {
+                throw new ArgumentNullException(nameof(sms));
+            }
+
             await this.smsRepository.Update(sms);
         }
 

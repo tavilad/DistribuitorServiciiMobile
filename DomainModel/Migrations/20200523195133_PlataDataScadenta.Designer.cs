@@ -4,14 +4,16 @@ using DistribuitorServiciiMobile.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DomainModel.Migrations
 {
     [DbContext(typeof(DistribuitorServiciiMobileContext))]
-    partial class DistribuitorServiciiMobileContextModelSnapshot : ModelSnapshot
+    [Migration("20200523195133_PlataDataScadenta")]
+    partial class PlataDataScadenta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace DomainModel.Migrations
 
                     b.Property<DateTime>("DataSfarsit")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Expirat")
-                        .HasColumnType("bit");
 
                     b.Property<string>("NumeAbonament")
                         .IsRequired()
@@ -109,9 +108,6 @@ namespace DomainModel.Migrations
 
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("Valabil")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

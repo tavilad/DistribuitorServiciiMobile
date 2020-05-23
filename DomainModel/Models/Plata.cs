@@ -25,5 +25,15 @@ namespace DomainModel.Models
         [Required]
         [Range(0, double.MaxValue)]
         public virtual Pret SumaPlatita { get; set; }
+
+        public DateTime DataScadenta { get; set; }
+
+        public bool EsteAchitat
+        {
+            get
+            {
+                return DataPlata <= DataScadenta && TotalDePlata.Suma == SumaPlatita.Suma;
+            }
+        }  
     }
 }

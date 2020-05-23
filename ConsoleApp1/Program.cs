@@ -38,8 +38,8 @@ namespace ConsoleApp1
             //    Console.WriteLine(entry.DataSfarsit);
             //}
 
-            IClientRepository clientRepository = new ClientRepository();
-            ClientController clientController = new ClientController(clientRepository);
+            //IClientRepository clientRepository = new ClientRepository();
+            //ClientController clientController = new ClientController(clientRepository);
             //Client client = new Client()
             //{
             //    FirstName = "Octavian",
@@ -49,7 +49,7 @@ namespace ConsoleApp1
 
             //await clientController.AddClient(client);
 
-            IEnumerable<Client> clientList = await clientController.GetAllClient();
+            //IEnumerable<Client> clientList = await clientController.GetAllClient();
 
             //foreach (var entry in clientList)
             //{
@@ -58,23 +58,23 @@ namespace ConsoleApp1
             //    Console.WriteLine(entry.CodNumericPersonal);
             //}
 
-            IContractRepository contractRepository = new ContractRepository();
-            ContractController contractController = new ContractController(contractRepository);
-            Contract contract = new Contract()
-            {
-                Abonament = abonamentList.FirstOrDefault(),
-                Client = clientList.FirstOrDefault()
-            };
+            //IContractRepository contractRepository = new ContractRepository();
+            //ContractController contractController = new ContractController(contractRepository);
+            //Contract contract = new Contract()
+            //{
+            //    Abonament = abonamentList.FirstOrDefault(),
+            //    Client = clientList.FirstOrDefault()
+            //};
 
-            await contractController.AddContract(contract);
+            //await contractController.AddContract(contract);
 
-            IEnumerable<Contract> contractList = await contractController.GetAllContract();
+            //IEnumerable<Contract> contractList = await contractController.GetAllContract();
 
-            foreach (var entry in contractList)
-            {
-                Console.WriteLine(entry.Abonament.Pret);
-                Console.WriteLine(entry.Client.FirstName);
-            }
+            //foreach (var entry in contractList)
+            //{
+            //    Console.WriteLine(entry.Abonament.Pret);
+            //    Console.WriteLine(entry.Client.FirstName);
+            //}
         }
     }
 }

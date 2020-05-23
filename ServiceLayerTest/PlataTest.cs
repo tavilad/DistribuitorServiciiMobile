@@ -15,40 +15,47 @@ namespace ServiceLayerTest
     [TestClass]
     public class PlataTest
     {
+        Mock<IPlataRepository> plataRepositoryMock;
+        PlataController controller;
+        Mock<IContractRepository> contractRepositoryMock;
+
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.plataRepositoryMock = new Mock<IPlataRepository>();
+            this.contractRepositoryMock = new Mock<IContractRepository>();
+            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object);
+        }
+
         [TestMethod]
         public async Task TestCreatePlata()
         {
-            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
-            PlataController controller = new PlataController(mock.Object);
-
             Plata plata = new Plata()
             {
                 Id = new Guid()
             };
 
-            mock.Setup(t => t.Insert(It.IsAny<Plata>())).Verifiable();
+            this.plataRepositoryMock.Setup(t => t.Insert(It.IsAny<Plata>())).Verifiable();
 
             await controller.AddPlata(plata);
 
-            mock.VerifyAll();
+            this.plataRepositoryMock.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestDeletPlata()
         {
-            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
-            PlataController controller = new PlataController(mock.Object);
-
             Plata plata = new Plata()
             {
                 Id = new Guid()
             };
 
-            mock.Setup(t => t.Delete(It.IsAny<Plata>())).Verifiable();
+            this.plataRepositoryMock.Setup(t => t.Delete(It.IsAny<Plata>())).Verifiable();
 
             await controller.DeletePlata(plata);
 
-            mock.VerifyAll();
+            this.plataRepositoryMock.VerifyAll();
         }
 
         [TestMethod]
@@ -56,10 +63,7 @@ namespace ServiceLayerTest
         {
             Plata[] plata = { new Plata { Id = new Guid() }, new Plata { Id = new Guid() } };
 
-            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
-            PlataController controller = new PlataController(mock.Object);
-
-            mock.Setup(t => t.Get(
+            this.plataRepositoryMock.Setup(t => t.Get(
                 It.IsAny<Expression<Func<Plata, bool>>>(),
                 It.IsAny<Func<IQueryable<Plata>, IOrderedQueryable<Plata>>>(),
                 It.IsAny<string>())).ReturnsAsync(plata);
@@ -72,22 +76,16 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestDeleteById()
         {
-            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
-            PlataController controller = new PlataController(mock.Object);
-
-            mock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
+            this.plataRepositoryMock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
 
             await controller.DeletePlataByID(1);
 
-            mock.VerifyAll();
+            this.plataRepositoryMock.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestUpdate()
         {
-            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
-            PlataController controller = new PlataController(mock.Object);
-
             Plata plata = new Plata()
             {
                 Id = new Guid()
@@ -95,20 +93,17 @@ namespace ServiceLayerTest
 
             plata.TotalDePlata = new Pret();
 
-            mock.Setup(t => t.Update(It.IsAny<Plata>())).Verifiable();
+            this.plataRepositoryMock.Setup(t => t.Update(It.IsAny<Plata>())).Verifiable();
 
             await controller.UpdatePlata(plata);
 
-            mock.VerifyAll();
+            this.plataRepositoryMock.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestGetById()
         {
-            Mock<IPlataRepository> mock = new Mock<IPlataRepository>();
-            PlataController controller = new PlataController(mock.Object);
-
-            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Plata());
+            this.plataRepositoryMock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Plata());
 
             Plata plata = await controller.GetById(Guid.NewGuid());
 
