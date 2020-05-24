@@ -4,6 +4,7 @@ using DomainModel.Models;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,13 +16,16 @@ namespace ServiceLayer.Controllers
 
         private IContractRepository contractRepository;
 
+        private IClientRepository clientRepository;
+
         private ContractController contractController;
 
-        public PlataController(IPlataRepository repository, IContractRepository contractRepository)
+        public PlataController(IPlataRepository repository, IContractRepository contractRepository, IClientRepository clientRepository, ClientController clientController)
         {
             this.plataRepository = repository;
             this.contractRepository = contractRepository;
-            this.contractController = new ContractController(this.contractRepository);
+            this.clientRepository = clientRepository;
+            this.contractController = new ContractController(this.contractRepository, this.clientRepository, this.plataRepository, clientController);
         }
 
 
@@ -36,6 +40,8 @@ namespace ServiceLayer.Controllers
             {
                 throw new ArgumentNullException(nameof(plata));
             }
+
+            this.Validate(plata);
 
             await this.plataRepository.Insert(plata);
         }
@@ -72,7 +78,8 @@ namespace ServiceLayer.Controllers
 
         public async Task<Plata> GenereazaPlata(Contract contract)
         {
-            if(contract == null) {
+            if (contract == null)
+            {
                 throw new InvalidOperationException($"Nu a fost gasit niciun contract cu id-ul {contract.Id}");
             }
 
@@ -99,6 +106,12 @@ namespace ServiceLayer.Controllers
             await this.plataRepository.Insert(plata);
 
             return plata;
+        }
+
+        private void Validate(Plata plata)
+        {
+            var context = new ValidationContext(plata);
+            Validator.ValidateObject(plata, context, true);
         }
     }
 }

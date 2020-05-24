@@ -90,15 +90,19 @@
             return new DateTime(int.Parse(yearPrefix + year), month, day);
         }
 
-        public async Task<bool> CheckClientPaymentsOnTime(Client client)
+        public virtual async Task<bool> CheckClientPaymentsOnTime(Client client)
         {
             IEnumerable<Plata> platiContract = await this.plataRepository.Get(plata => plata.DataPlata.Month < DateTime.Today.Month
                                                                                        && plata.Client == client);
 
-
-            foreach(Plata plata in platiContract)
+            if (platiContract.Count() == 0)
             {
-                if(!plata.EsteAchitat)
+                return true;
+            }
+
+            foreach (Plata plata in platiContract)
+            {
+                if (!plata.EsteAchitat)
                 {
                     return false;
                 }

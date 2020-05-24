@@ -1,5 +1,6 @@
 ﻿using DataMapper.Interfaces;
 using DistribuitorServiciiMobile.Models;
+using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServiceLayer.Controllers;
@@ -15,51 +16,69 @@ namespace ServiceLayerTest
     [TestClass]
     public class ContractTest
     {
+        Mock<IClientRepository> clientRepositoryMock;
+        ContractController controller;
+        Mock<IPlataRepository> plataRepositoryMock;
+        Mock<IContractRepository> contractRepository;
+        ClientController clientController;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.clientRepositoryMock = new Mock<IClientRepository>();
+            this.plataRepositoryMock = new Mock<IPlataRepository>();
+            this.contractRepository = new Mock<IContractRepository>();
+            this.clientController = new ClientController(this.clientRepositoryMock.Object, this.plataRepositoryMock.Object);
+            this.controller = new ContractController(this.contractRepository.Object, this.clientRepositoryMock.Object, this.plataRepositoryMock.Object, this.clientController);
+        }
+
         [TestMethod]
         public async Task TestCreateContract()
         {
-            Mock<IContractRepository> mock = new Mock<IContractRepository>();
-            ContractController controller = new ContractController(mock.Object);
-
             Contract contract = new Contract()
             {
-                Id = new Guid()
+                Id = new Guid(),
+                Client = new Client(),
+                Abonament = new Abonament()
             };
 
-            mock.Setup(t => t.Insert(It.IsAny<Contract>())).Verifiable();
+            contract.Client.CodNumericPersonal = "1960914080014";
+
+            this.plataRepositoryMock.Setup(t => t.Get(
+                It.IsAny<Expression<Func<Plata, bool>>>(),
+                It.IsAny<Func<IQueryable<Plata>, IOrderedQueryable<Plata>>>(),
+                It.IsAny<string>())).ReturnsAsync(new List<Plata>());
+
+            //this.clientControllerMock.Setup(t => t.CheckClientPaymentsOnTime(It.IsAny<Client>())).ReturnsAsync(true);
+
+            this.contractRepository.Setup(t => t.Insert(It.IsAny<Contract>())).Verifiable();
 
             await controller.AddContract(contract);
 
-            mock.VerifyAll();
+            this.contractRepository.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestDeleteContractObject()
         {
-            Mock<IContractRepository> mock = new Mock<IContractRepository>();
-            ContractController controller = new ContractController(mock.Object);
-
             Contract contract = new Contract()
             {
                 Id = new Guid()
             };
 
-            mock.Setup(t => t.Delete(It.IsAny<Contract>())).Verifiable();
+            this.contractRepository.Setup(t => t.Delete(It.IsAny<Contract>())).Verifiable();
 
             await controller.DeleteContract(contract);
 
-            mock.VerifyAll();
+            this.contractRepository.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestGetAllContract()
         {
-            Mock<IContractRepository> mock = new Mock<IContractRepository>();
-            ContractController controller = new ContractController(mock.Object);
-
             Contract[] contracte = { new Contract { Id = new Guid() }, new Contract { Id = new Guid() } };
 
-            mock.Setup(t => t.Get(
+            this.contractRepository.Setup(t => t.Get(
                 It.IsAny<Expression<Func<Contract, bool>>>(),
                 It.IsAny<Func<IQueryable<Contract>, IOrderedQueryable<Contract>>>(),
                 It.IsAny<string>())).ReturnsAsync(contracte);
@@ -72,22 +91,16 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestDeleteById()
         {
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
+            this.contractRepository.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
 
-            mock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
+            await controller.DeleteContractByID(1);
 
-            await controller.DeleteConvorbireByID(1);
-
-            mock.VerifyAll();
+            this.contractRepository.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestUpdate()
         {
-            Mock<IContractRepository> mock = new Mock<IContractRepository>();
-            ContractController controller = new ContractController(mock.Object);
-
             Contract contract = new Contract()
             {
                 Id = new Guid()
@@ -95,20 +108,17 @@ namespace ServiceLayerTest
 
             contract.Id = new Guid();
 
-            mock.Setup(t => t.Update(It.IsAny<Contract>())).Verifiable();
+            this.contractRepository.Setup(t => t.Update(It.IsAny<Contract>())).Verifiable();
 
             await controller.UpdateContract(contract);
 
-            mock.VerifyAll();
+            this.contractRepository.VerifyAll();
         }
 
         [TestMethod]
         public async Task TestGetById()
         {
-            Mock<IContractRepository> mock = new Mock<IContractRepository>();
-            ContractController controller = new ContractController(mock.Object);
-
-            mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Contract());
+            this.contractRepository.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Contract());
 
             Contract contract = await controller.GetById(Guid.NewGuid());
 

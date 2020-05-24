@@ -1,10 +1,12 @@
 ﻿using DataMapper.Interfaces;
+using DistribuitorServiciiMobile.Models;
 using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServiceLayer.Controllers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -18,6 +20,8 @@ namespace ServiceLayerTest
         Mock<IPlataRepository> plataRepositoryMock;
         PlataController controller;
         Mock<IContractRepository> contractRepositoryMock;
+        Mock<IClientRepository> clientRepository;
+        Mock<ClientController> clientController;
 
 
         [TestInitialize]
@@ -25,7 +29,9 @@ namespace ServiceLayerTest
         {
             this.plataRepositoryMock = new Mock<IPlataRepository>();
             this.contractRepositoryMock = new Mock<IContractRepository>();
-            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object);
+            this.clientRepository = new Mock<IClientRepository>();
+            this.clientController = new Mock<ClientController>();
+            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object, this.clientRepository.Object, this.clientController.Object);
         }
 
         [TestMethod]
@@ -33,7 +39,13 @@ namespace ServiceLayerTest
         {
             Plata plata = new Plata()
             {
-                Id = new Guid()
+                Id = new Guid(),
+                Client = new Client(),
+                DataPlata = DateTime.Today,
+                Contract = new Contract(),
+                TotalDePlata = new Pret(),
+                SumaPlatita = new Pret(),
+                DataScadenta = DateTime.Today
             };
 
             this.plataRepositoryMock.Setup(t => t.Insert(It.IsAny<Plata>())).Verifiable();

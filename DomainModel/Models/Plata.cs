@@ -23,9 +23,9 @@ namespace DomainModel.Models
         public virtual Pret TotalDePlata { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue)]
         public virtual Pret SumaPlatita { get; set; }
 
+        [Required]
         public DateTime DataScadenta { get; set; }
 
         public bool EsteAchitat

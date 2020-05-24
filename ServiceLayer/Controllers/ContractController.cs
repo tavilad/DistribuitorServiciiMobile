@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
     using System.Threading.Tasks;
     using DataMapper.Interfaces;
@@ -15,11 +16,19 @@
         /// <summary>The contract repository</summary>
         private IContractRepository contractRepository;
 
+        private IClientRepository clientRepository;
+
+        private IPlataRepository plataRepository;
+
+        private ClientController clientController;
+
         /// <summary>Initializes a new instance of the <see cref="ContractController" /> class.</summary>
         /// <param name="repository">The repository.</param>
-        public ContractController(IContractRepository repository)
+        public ContractController(IContractRepository repository, IClientRepository clientRepository, IPlataRepository plataRepository, ClientController clientController)
         {
             this.contractRepository = repository;
+            this.clientRepository = clientRepository;
+            this.clientController = clientController;
         }
 
         /// <summary>Gets all contract.</summary>
@@ -37,6 +46,21 @@
             if (contract == null)
             {
                 throw new ArgumentNullException(nameof(contract));
+            }
+
+            this.Validate(contract);
+
+            DateTime clientDOB = this.clientController.GetClientDOB(contract.Client);
+            int age = DateTime.Today.Year - clientDOB.Year;
+
+            if(age < 18)
+            {
+                throw new ArgumentException("Varsta clientului este sub 18 ani");
+            }
+
+            if(!await this.clientController.CheckClientPaymentsOnTime(contract.Client))
+            {
+                throw new ArgumentException("Clientul nu este bun platnic");
             }
 
             await this.contractRepository.Insert(contract);
@@ -88,6 +112,12 @@
         public async Task<Pret> CalculPret()
         {
             throw new NotImplementedException();
+        }
+
+        private void Validate(Contract contract)
+        {
+            var context = new ValidationContext(contract);
+            Validator.ValidateObject(contract, context, true);
         }
     }
 }
