@@ -24,10 +24,9 @@
 
         /// <summary>Initializes a new instance of the <see cref="ContractController" /> class.</summary>
         /// <param name="repository">The repository.</param>
-        public ContractController(IContractRepository repository, IClientRepository clientRepository, IPlataRepository plataRepository, ClientController clientController)
+        public ContractController(IContractRepository repository, ClientController clientController)
         {
             this.contractRepository = repository;
-            this.clientRepository = clientRepository;
             this.clientController = clientController;
         }
 
