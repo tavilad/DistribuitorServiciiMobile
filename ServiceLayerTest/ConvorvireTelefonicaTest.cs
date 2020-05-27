@@ -1,4 +1,5 @@
 ﻿using DataMapper.Interfaces;
+using DistribuitorServiciiMobile.Models;
 using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -23,7 +24,11 @@ namespace ServiceLayerTest
 
             ConvorbireTelefonica convorbire = new ConvorbireTelefonica()
             {
-                Id = new Guid()
+                Id = new Guid(),
+                Initiator = new Client(),
+                Receptor = new Client(),
+                DurataConvorbire = 10,
+                TipConvorbire = "Retea"
             };
 
             mock.Setup(t => t.Insert(It.IsAny<ConvorbireTelefonica>())).Verifiable();

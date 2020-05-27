@@ -54,16 +54,5 @@ namespace TestDomainModel
             plata.DataPlata = DateTime.Today;
             Assert.AreEqual(DateTime.Today, plata.DataPlata);
         }
-
-        [TestMethod]
-        public void TestTotalDePlataNegativ()
-        {
-            Plata plata = new Plata();
-            plata.TotalDePlata = new Pret() { Suma = -2 };
-
-            ValidationContext context = new ValidationContext(plata, null, null) { MemberName = "TotalDePlata" };
-
-            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(plata.TotalDePlata, context); });
-        }
     }
 }

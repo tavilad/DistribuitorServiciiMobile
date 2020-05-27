@@ -33,6 +33,9 @@
         [Required]
         /// <summary>Gets or sets the contract.</summary>
         /// <value>The contract.</value>
-        public virtual Contract Contract { get; set; } 
+        public virtual Contract Contract { get; set; }
+        
+        [Required]
+        public string TipBonus { get; set; }
     }
 }

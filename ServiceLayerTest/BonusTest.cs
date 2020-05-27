@@ -15,6 +15,19 @@ namespace ServiceLayerTest
     [TestClass]
     public class BonusTest
     {
+        Mock<IBonusRepository> repositoryMock;
+        BonusController controller;
+        ClientController clientController;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.repositoryMock = new Mock<IBonusRepository>();
+            this.clientController = new ClientController(new Mock<IClientRepository>().Object, new Mock<IPlataRepository>().Object,
+                new Mock<IConvorbireTelefonicaRepository>().Object, new Mock<IAbonamentRepository>().Object);
+            this.controller = new BonusController(repositoryMock.Object, this.clientController);
+        }
+
         [TestMethod]
         public async Task TestCreateBonus()
         {
@@ -22,11 +35,10 @@ namespace ServiceLayerTest
             {
                 MinuteBonus = 100,
                 SmsBonus = 20,
-                DateBonus = 10
+                DateBonus = 10,
+                Contract = new Contract(),
+                TipBonus = "National"
             };
-
-            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
-            BonusController controller = new BonusController(repositoryMock.Object);
 
             repositoryMock.Setup(t => t.Insert(It.IsAny<Bonus>())).Verifiable();
 
@@ -45,9 +57,6 @@ namespace ServiceLayerTest
                 DateBonus = 10
             };
 
-            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
-            BonusController controller = new BonusController(repositoryMock.Object);
-
             repositoryMock.Setup(t => t.Delete(It.IsAny<Bonus>())).Verifiable();
 
             await controller.DeleteBonus(bonus);
@@ -59,9 +68,6 @@ namespace ServiceLayerTest
         public async Task TestGetAllBonus()
         {
             Bonus[] bonusuri = { new Bonus { Id = new Guid() }, new Bonus { Id = new Guid() } };
-
-            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
-            BonusController controller = new BonusController(repositoryMock.Object);
 
             repositoryMock.Setup(t => t.Get(
                 It.IsAny<Expression<Func<Bonus, bool>>>(),
@@ -76,9 +82,6 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestDeleteById()
         {
-            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
-            BonusController controller = new BonusController(repositoryMock.Object);
-
             repositoryMock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
 
             await controller.DeleteBonusByID(1);
@@ -89,9 +92,6 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestUpdate()
         {
-            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
-            BonusController controller = new BonusController(repositoryMock.Object);
-
             Bonus bonus = new Bonus()
             {
                 Id = new Guid()
@@ -109,12 +109,9 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestGetById()
         {
-            Mock<IBonusRepository> repositoryMock = new Mock<IBonusRepository>();
-            BonusController bonusController = new BonusController(repositoryMock.Object);
-
             repositoryMock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Bonus());
 
-            Bonus bonus = await bonusController.GetById(Guid.NewGuid());
+            Bonus bonus = await controller.GetById(Guid.NewGuid());
 
             Assert.IsNotNull(bonus);
         }

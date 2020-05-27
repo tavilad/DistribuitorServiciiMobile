@@ -73,5 +73,24 @@
         {
             return await this.abonamentRepository.GetById(id);
         }
+
+        public async Task<Abonament> PrelungireAbonament(Abonament abonament, DateTime dataExpirareNoua)
+        {
+            if (abonament == null)
+            {
+                throw new ArgumentException("Contractul este null");
+            }
+
+            if (dataExpirareNoua < abonament.DataSfarsit)
+            {
+                throw new ArgumentException("Abonamentul nu se poate scurta");
+            }
+
+            abonament.DataSfarsit = dataExpirareNoua;
+
+            await this.abonamentRepository.Update(abonament);
+
+            return abonament;
+        }
     }
 }

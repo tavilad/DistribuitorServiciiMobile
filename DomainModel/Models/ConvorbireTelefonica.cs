@@ -33,5 +33,8 @@
         /// <summary>Gets or sets the data apel.</summary>
         /// <value>The data apel.</value>
         public DateTime DataApel { get; set; }
+
+        [Required]
+        public string TipConvorbire { get; set; }
     }
 }

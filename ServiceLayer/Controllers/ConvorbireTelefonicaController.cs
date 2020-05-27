@@ -3,6 +3,7 @@ using DomainModel.Models;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,8 @@ namespace ServiceLayer.Controllers
             {
                 throw new ArgumentNullException(nameof(convorbire));
             }
+
+            this.Validate(convorbire);
 
             await this.convorbireRepository.Insert(convorbire);
         }
@@ -62,6 +65,12 @@ namespace ServiceLayer.Controllers
         public async Task<ConvorbireTelefonica> GetById(object id)
         {
             return await this.convorbireRepository.GetById(id);
+        }
+
+        private void Validate(ConvorbireTelefonica convorbire)
+        {
+            var context = new ValidationContext(convorbire);
+            Validator.ValidateObject(convorbire, context, true);
         }
     }
 }

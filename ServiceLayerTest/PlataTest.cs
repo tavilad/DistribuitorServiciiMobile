@@ -21,7 +21,7 @@ namespace ServiceLayerTest
         PlataController controller;
         Mock<IContractRepository> contractRepositoryMock;
         Mock<IClientRepository> clientRepository;
-        Mock<ClientController> clientController;
+        ClientController clientController;
 
 
         [TestInitialize]
@@ -30,8 +30,9 @@ namespace ServiceLayerTest
             this.plataRepositoryMock = new Mock<IPlataRepository>();
             this.contractRepositoryMock = new Mock<IContractRepository>();
             this.clientRepository = new Mock<IClientRepository>();
-            this.clientController = new Mock<ClientController>();
-            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object, this.clientController.Object);
+            this.clientController = new ClientController(this.clientRepository.Object, this.plataRepositoryMock.Object,
+                new Mock<IConvorbireTelefonicaRepository>().Object, new Mock<IAbonamentRepository>().Object);
+            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object, this.clientController);
         }
 
         [TestMethod]

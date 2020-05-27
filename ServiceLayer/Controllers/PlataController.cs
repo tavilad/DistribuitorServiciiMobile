@@ -22,7 +22,7 @@ namespace ServiceLayer.Controllers
         {
             this.plataRepository = repository;
             this.contractRepository = contractRepository;
-            this.contractController = new ContractController(this.contractRepository, clientController);
+            this.contractController = new ContractController(this.contractRepository, clientController, this.plataRepository);
         }
 
 
@@ -71,38 +71,6 @@ namespace ServiceLayer.Controllers
         public async Task<Plata> GetById(object id)
         {
             return await this.plataRepository.GetById(id);
-        }
-
-        public async Task<Plata> GenereazaPlata(Contract contract)
-        {
-            if (contract == null)
-            {
-                throw new InvalidOperationException($"Nu a fost gasit niciun contract cu id-ul {contract.Id}");
-            }
-
-            if (!contract.Valabil)
-            {
-                throw new InvalidOperationException($"Nu poate fi emisa factura pentru un contract incheiat");
-            }
-
-            if (!contract.Abonament.Expirat)
-            {
-                throw new InvalidOperationException($"Contract invalid. Abonamentul este expirat");
-            }
-
-            //double costTotal = this.contractController.GetCostTotal(idContract);
-
-            Plata plata = new Plata
-            {
-                //CostTotal = costTotal,
-                //IdContract = idContract,
-                //DataScadenta = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, DateTime.Now.Day),
-                //EsteAchitata = false,
-            };
-
-            await this.plataRepository.Insert(plata);
-
-            return plata;
         }
 
         private void Validate(Plata plata)

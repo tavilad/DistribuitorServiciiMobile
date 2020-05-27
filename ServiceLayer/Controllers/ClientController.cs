@@ -18,12 +18,19 @@
 
         private IPlataRepository plataRepository;
 
+        private IConvorbireTelefonicaRepository convorbireRepository;
+
+        private IAbonamentRepository abonamentRepository;
+
         /// <summary>Initializes a new instance of the <see cref="ClientController" /> class.</summary>
         /// <param name="repository">The repository.</param>
-        public ClientController(IClientRepository repository, IPlataRepository plataRepository)
+        public ClientController(IClientRepository repository, IPlataRepository plataRepository, IConvorbireTelefonicaRepository convorbireTelefonicaRepository, 
+            IAbonamentRepository abonamentRepository)
         {
             this.clientRepository = repository;
             this.plataRepository = plataRepository;
+            this.convorbireRepository = convorbireTelefonicaRepository;
+            this.abonamentRepository = abonamentRepository;
         }
 
         /// <summary>Gets all client.</summary>
@@ -90,7 +97,7 @@
             return new DateTime(int.Parse(yearPrefix + year), month, day);
         }
 
-        public virtual async Task<bool> CheckClientPaymentsOnTime(Client client)
+        public async Task<bool> CheckClientPaymentsOnTime(Client client)
         {
             IEnumerable<Plata> platiContract = await this.plataRepository.Get(plata => plata.DataPlata.Month < DateTime.Today.Month
                                                                                        && plata.Client == client);
@@ -109,6 +116,19 @@
             }
 
             return true;
+        }
+
+        public async Task ExecutaApel(ConvorbireTelefonica convorbireTelefonica, Contract contract)
+        {
+            await this.convorbireRepository.Insert(convorbireTelefonica);
+
+            Client initiator = convorbireTelefonica.Initiator;
+
+            Abonament abonament = initiator.Contracte.Where(con => con.Id == contract.Id).FirstOrDefault().Abonament;
+            abonament.AbonamentMinute.Where(minute => minute.TipMinute == convorbireTelefonica.TipConvorbire).FirstOrDefault().MinuteConsumate +=
+                (int)convorbireTelefonica.DurataConvorbire;
+
+            await this.abonamentRepository.Update(abonament);
         }
     }
 }

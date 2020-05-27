@@ -28,8 +28,9 @@ namespace ServiceLayerTest
             this.clientRepositoryMock = new Mock<IClientRepository>();
             this.plataRepositoryMock = new Mock<IPlataRepository>();
             this.contractRepository = new Mock<IContractRepository>();
-            this.clientController = new ClientController(this.clientRepositoryMock.Object, this.plataRepositoryMock.Object);
-            this.controller = new ContractController(this.contractRepository.Object, this.clientController);
+            this.clientController = new ClientController(this.clientRepositoryMock.Object, this.plataRepositoryMock.Object,
+                new Mock<IConvorbireTelefonicaRepository>().Object, new Mock<IAbonamentRepository>().Object);
+            this.controller = new ContractController(this.contractRepository.Object, this.clientController, this.plataRepositoryMock.Object);
         }
 
         [TestMethod]
@@ -123,6 +124,22 @@ namespace ServiceLayerTest
             Contract contract = await controller.GetById(Guid.NewGuid());
 
             Assert.IsNotNull(contract);
+        }
+
+        [TestMethod]
+        public void TestGetCostContract()
+        {
+            Contract contract = new Contract
+            {
+                Id = Guid.NewGuid(),
+                Client = new Client(),
+                Abonament = new Abonament
+                {
+
+                },
+                Valabil = true,
+                Convorbiri = new List<ConvorbireTelefonica>()
+            };
         }
     }
 }

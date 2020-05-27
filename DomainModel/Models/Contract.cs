@@ -1,5 +1,6 @@
 ﻿namespace DistribuitorServiciiMobile.Models
 {
+    using DomainModel.Models;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -23,5 +24,7 @@
         public virtual Abonament Abonament { get; set; }
 
         public bool Valabil { get; set; }
+
+        public virtual ICollection<ConvorbireTelefonica> Convorbiri { get; set; }
     }
 }

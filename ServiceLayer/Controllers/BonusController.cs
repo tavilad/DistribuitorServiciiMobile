@@ -2,11 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
     using System.Threading.Tasks;
     using DataMapper.Interfaces;
     using DistribuitorServiciiMobile.Models;
-    using FluentValidation.Results;
 
     /// <summary>Service layer controller for the Bonus entity</summary>
     public class BonusController
@@ -14,11 +14,14 @@
         /// <summary>The bonus repository</summary>
         private IBonusRepository bonusRepository;
 
+        private ClientController clientController;
+
         /// <summary>Initializes a new instance of the <see cref="BonusController" /> class.</summary>
         /// <param name="repository">The repository.</param>
-        public BonusController(IBonusRepository repository)
+        public BonusController(IBonusRepository repository, ClientController clientController)
         {
             this.bonusRepository = repository;
+            this.clientController = clientController;
         }
 
         /// <summary>Gets all bonus.</summary>
@@ -36,6 +39,13 @@
             if (bonus == null)
             {
                 throw new ArgumentNullException(nameof(bonus));
+            }
+
+            this.Validate(bonus);
+
+            if(!await this.clientController.CheckClientPaymentsOnTime(bonus.Contract.Client))
+            {
+                throw new ArgumentException("Clientul nu este bun platnic");
             }
 
             await this.bonusRepository.Insert(bonus);
@@ -72,6 +82,12 @@
         public async Task<Bonus> GetById(object id)
         {
             return await this.bonusRepository.GetById(id);
+        }
+
+        private void Validate(Bonus bonus)
+        {
+            var context = new ValidationContext(bonus);
+            Validator.ValidateObject(bonus, context, true);
         }
     }
 }
