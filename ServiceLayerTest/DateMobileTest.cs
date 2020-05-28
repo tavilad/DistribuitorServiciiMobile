@@ -34,6 +34,19 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateDateMobileNull()
+        {
+            Mock<IDateRepository> mock = new Mock<IDateRepository>();
+            DateMobileController controller = new DateMobileController(mock.Object);
+
+            DateMobile date = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddDate(date));
+
+            Assert.AreEqual(exception.ParamName, nameof(date));
+        }
+
+        [TestMethod]
         public async Task TestDeleteDateMobile()
         {
             Mock<IDateRepository> mock = new Mock<IDateRepository>();
@@ -49,6 +62,19 @@ namespace ServiceLayerTest
             await controller.DeleteDate(date);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeleteDateMobileNull()
+        {
+            Mock<IDateRepository> mock = new Mock<IDateRepository>();
+            DateMobileController controller = new DateMobileController(mock.Object);
+
+            DateMobile date = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeleteDate(date));
+
+            Assert.AreEqual(exception.ParamName, nameof(date));
         }
 
         [TestMethod]
@@ -100,6 +126,19 @@ namespace ServiceLayerTest
             await controller.UpdateDate(date);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdateDateMobileNull()
+        {
+            Mock<IDateRepository> mock = new Mock<IDateRepository>();
+            DateMobileController controller = new DateMobileController(mock.Object);
+
+            DateMobile date = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdateDate(date));
+
+            Assert.AreEqual(exception.ParamName, nameof(date));
         }
 
         [TestMethod]

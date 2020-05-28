@@ -108,5 +108,13 @@ namespace TestDomainModel
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 abonament.DataInceput = DateTime.Now.AddDays(2));
         }
+
+        [TestMethod]
+        public void TestExpiratProperty()
+        {
+            Abonament abonament = new Abonament();
+            abonament.Expirat = false;
+            Assert.AreEqual(false, abonament.Expirat);
+        }
     }
 }

@@ -88,7 +88,7 @@
 
             abonament.DataSfarsit = dataExpirareNoua;
 
-            await this.abonamentRepository.Update(abonament);
+            await this.UpdateAbonament(abonament);
 
             return abonament;
         }

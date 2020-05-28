@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Text;
@@ -10,6 +11,7 @@
     using DistribuitorServiciiMobile.Models;
     using Microsoft.EntityFrameworkCore;
 
+    [ExcludeFromCodeCoverage]
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         public BaseRepository()

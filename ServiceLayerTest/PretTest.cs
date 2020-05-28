@@ -34,6 +34,19 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateSmsNull()
+        {
+            Mock<IPretRepository> mock = new Mock<IPretRepository>();
+            PretController controller = new PretController(mock.Object);
+
+            Pret pret = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddPret(pret));
+
+            Assert.AreEqual(exception.ParamName, nameof(pret));
+        }
+
+        [TestMethod]
         public async Task TestDeletePret()
         {
             Mock<IPretRepository> mock = new Mock<IPretRepository>();
@@ -49,6 +62,19 @@ namespace ServiceLayerTest
             await controller.DeletePret(pret);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeleteSmsNull()
+        {
+            Mock<IPretRepository> mock = new Mock<IPretRepository>();
+            PretController controller = new PretController(mock.Object);
+
+            Pret pret = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeletePret(pret));
+
+            Assert.AreEqual(exception.ParamName, nameof(pret));
         }
 
         [TestMethod]
@@ -100,6 +126,19 @@ namespace ServiceLayerTest
             await controller.UpdatePret(Pret);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdateSmsNull()
+        {
+            Mock<IPretRepository> mock = new Mock<IPretRepository>();
+            PretController controller = new PretController(mock.Object);
+
+            Pret pret = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdatePret(pret));
+
+            Assert.AreEqual(exception.ParamName, nameof(pret));
         }
 
         [TestMethod]

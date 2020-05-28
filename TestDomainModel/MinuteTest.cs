@@ -1,4 +1,5 @@
 ﻿using DistribuitorServiciiMobile.Models;
+using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,33 @@ namespace TestDomainModel
             ValidationContext context = new ValidationContext(minute, null, null) { MemberName = "TipMinute" };
 
             Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(minute.TipMinute, context); });
+        }
+
+        [TestMethod]
+        public void TestMinuteConsumateProperty()
+        {
+            Minute minute = new Minute();
+            minute.MinuteConsumate = 100;
+            Assert.AreEqual(100, minute.MinuteConsumate);
+        }
+
+        [TestMethod]
+        public void TestMinuteConsumateNegativ()
+        {
+            Minute minute = new Minute();
+            minute.MinuteConsumate = -2;
+            ValidationContext context = new ValidationContext(minute, null, null) { MemberName = "MinuteConsumate" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(minute.MinuteConsumate, context); });
+        }
+
+        [TestMethod]
+        public void TestPretProperty()
+        {
+            Minute minute = new Minute();
+            Pret pret = new Pret();
+            minute.PretMinute = pret;
+            Assert.AreEqual(pret, minute.PretMinute);
         }
     }
 }

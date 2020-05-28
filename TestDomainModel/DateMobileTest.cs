@@ -1,4 +1,5 @@
 ﻿using DistribuitorServiciiMobile.Models;
+using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -74,6 +75,33 @@ namespace TestDomainModel
             ValidationContext context = new ValidationContext(date, null, null) { MemberName = "TipDate" };
 
             Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(date.TipDate, context); });
+        }
+
+        [TestMethod]
+        public void TestDateConsumateProperty()
+        {
+            DateMobile date = new DateMobile();
+            date.DateConsumate = 100;
+            Assert.AreEqual(100, date.DateConsumate);
+        }
+
+        [TestMethod]
+        public void TestDateConsumateNegativ()
+        {
+            DateMobile date = new DateMobile();
+            date.DateConsumate = -2;
+            ValidationContext context = new ValidationContext(date, null, null) { MemberName = "DateConsumate" };
+
+            Assert.ThrowsException<ValidationException>(() => { Validator.ValidateProperty(date.DateConsumate, context); });
+        }
+
+        [TestMethod]
+        public void TestPretProperty()
+        {
+            DateMobile date = new DateMobile();
+            Pret pret = new Pret();
+            date.PretData = pret;
+            Assert.AreEqual(pret, date.PretData);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DataMapper.Interfaces;
 using DistribuitorServiciiMobile.Models;
+using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServiceLayer.Controllers;
@@ -18,14 +19,17 @@ namespace ServiceLayerTest
         Mock<IBonusRepository> repositoryMock;
         BonusController controller;
         ClientController clientController;
+        Mock<IPlataRepository> plataRepositoryMock;
 
         [TestInitialize]
         public void Initialize()
         {
             this.repositoryMock = new Mock<IBonusRepository>();
-            this.clientController = new ClientController(new Mock<IClientRepository>().Object, new Mock<IPlataRepository>().Object,
+            this.plataRepositoryMock = new Mock<IPlataRepository>();
+            this.clientController = new ClientController(new Mock<IClientRepository>().Object, this.plataRepositoryMock.Object,
                 new Mock<IConvorbireTelefonicaRepository>().Object, new Mock<IAbonamentRepository>().Object);
             this.controller = new BonusController(repositoryMock.Object, this.clientController);
+
         }
 
         [TestMethod]
@@ -45,6 +49,71 @@ namespace ServiceLayerTest
             await controller.AddBonus(bonus);
 
             repositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestCreateBonusNull()
+        {
+            Bonus bonus = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddBonus(bonus));
+
+            Assert.AreEqual(exception.ParamName, nameof(bonus));
+        }
+
+        [TestMethod]
+        public async Task TestCreateBonusRauPlatnic()
+        {
+
+            Client client = new Client()
+            {
+                FirstName = "Octavian",
+                LastName = "Pintiliciuc",
+                CodNumericPersonal = "1960914080014"
+            };
+
+            Abonament abonament = new Abonament()
+            {
+                Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi"
+            };
+
+            Contract contract = new Contract()
+            {
+                Client = client,
+                Valabil = true,
+                Abonament = abonament
+            };
+
+            Bonus bonus = new Bonus()
+            {
+                MinuteBonus = 100,
+                SmsBonus = 20,
+                DateBonus = 10,
+                Contract = contract,
+                TipBonus = "National"
+            };
+
+            Plata[] plati = {
+                new Plata()
+                {
+                    Client = client,
+                    Contract = contract,
+                    DataScadenta = DateTime.Today,
+                    DataPlata = DateTime.Today.AddDays(1)
+                }
+            };
+
+            this.plataRepositoryMock.Setup(t => t.Get(
+                It.IsAny<Expression<Func<Plata, bool>>>(),
+                It.IsAny<Func<IQueryable<Plata>, IOrderedQueryable<Plata>>>(),
+                It.IsAny<string>())).ReturnsAsync(plati);
+
+            ArgumentException exception = await Assert.ThrowsExceptionAsync<ArgumentException>(() => controller.AddBonus(bonus));
+
+            Assert.AreEqual(exception.Message, "Clientul nu este bun platnic");
         }
 
         [TestMethod]
@@ -114,6 +183,26 @@ namespace ServiceLayerTest
             Bonus bonus = await controller.GetById(Guid.NewGuid());
 
             Assert.IsNotNull(bonus);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateBonusNull()
+        {
+            Bonus bonus = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdateBonus(bonus));
+
+            Assert.AreEqual(exception.ParamName, nameof(bonus));
+        }
+
+        [TestMethod]
+        public async Task TestDeleteBonusNull()
+        {
+            Bonus bonus = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeleteBonus(bonus));
+
+            Assert.AreEqual(exception.ParamName, nameof(bonus));
         }
     }
 }

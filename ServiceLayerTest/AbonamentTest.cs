@@ -39,6 +39,19 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateAbonamentNull()
+        {
+            Abonament abonament = null;
+
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => abonamentController.AddAbonament(abonament));
+
+            Assert.AreEqual(exception.ParamName, nameof(abonament));
+        }
+
+        [TestMethod]
         public async Task TestDeleteAbonamentObject()
         {
             Abonament abonament = new Abonament()
@@ -57,6 +70,19 @@ namespace ServiceLayerTest
             await abonamentController.DeleteAbonament(abonament);
 
             repositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeleteAbonamentNull()
+        {
+            Abonament abonament = null;
+
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => abonamentController.DeleteAbonament(abonament));
+
+            Assert.AreEqual(exception.ParamName, nameof(abonament));
         }
 
         [TestMethod]
@@ -121,6 +147,20 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestUpdateAbonamentNull()
+        {
+            Abonament abonament = null;
+
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => abonamentController.UpdateAbonament(abonament));
+
+            Assert.AreEqual(exception.ParamName, nameof(abonament));
+
+        }
+
+        [TestMethod]
         public async Task TestGetById()
         {
             Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
@@ -131,6 +171,67 @@ namespace ServiceLayerTest
             Abonament abonament = await abonamentController.GetById(Guid.NewGuid());
 
             Assert.IsNotNull(abonament);
+        }
+
+        [TestMethod]
+        public async Task TestPrelungireAbonament()
+        {
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            Abonament abonament = new Abonament()
+            {
+                Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi"
+            };
+
+            DateTime dataExpirate = new DateTime(2020, 10, 14);
+
+            repositoryMock.Setup(t => t.Update(It.IsAny<Abonament>())).Verifiable();
+
+            await abonamentController.PrelungireAbonament(abonament, dataExpirate);
+
+            repositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestPrelungireAbonamentNull()
+        {
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            Abonament abonament = null;
+
+            DateTime dataExpirate = new DateTime(2020, 10, 14);
+
+            ArgumentException exception = await Assert.ThrowsExceptionAsync<ArgumentException>(
+                () => abonamentController.PrelungireAbonament(abonament, dataExpirate));
+
+            Assert.AreEqual(exception.Message, "Contractul este null");
+        }
+
+        [TestMethod]
+        public async Task TestScurtareAbonament()
+        {
+            Mock<IAbonamentRepository> repositoryMock = new Mock<IAbonamentRepository>();
+            AbonamentController abonamentController = new AbonamentController(repositoryMock.Object);
+
+            Abonament abonament = new Abonament()
+            {
+                Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi"
+            };
+
+            DateTime dataExpirate = new DateTime(2019, 10, 14);
+
+            ArgumentException exception = await Assert.ThrowsExceptionAsync<ArgumentException>(
+                () => abonamentController.PrelungireAbonament(abonament, dataExpirate));
+
+            Assert.AreEqual(exception.Message, "Abonamentul nu se poate scurta");
         }
     }
 }

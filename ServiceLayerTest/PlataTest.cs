@@ -22,7 +22,7 @@ namespace ServiceLayerTest
         Mock<IContractRepository> contractRepositoryMock;
         Mock<IClientRepository> clientRepository;
         ClientController clientController;
-
+        Mock<IAbonamentRepository> abonamentRepositoryMock;
 
         [TestInitialize]
         public void Initialize()
@@ -30,9 +30,10 @@ namespace ServiceLayerTest
             this.plataRepositoryMock = new Mock<IPlataRepository>();
             this.contractRepositoryMock = new Mock<IContractRepository>();
             this.clientRepository = new Mock<IClientRepository>();
+            this.abonamentRepositoryMock = new Mock<IAbonamentRepository>();
             this.clientController = new ClientController(this.clientRepository.Object, this.plataRepositoryMock.Object,
                 new Mock<IConvorbireTelefonicaRepository>().Object, new Mock<IAbonamentRepository>().Object);
-            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object, this.clientController);
+            this.controller = new PlataController(this.plataRepositoryMock.Object, this.contractRepositoryMock.Object, this.clientController, this.abonamentRepositoryMock.Object);
         }
 
         [TestMethod]
@@ -57,6 +58,16 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreatePlataNull()
+        {
+            Plata plata = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddPlata(plata));
+
+            Assert.AreEqual(exception.ParamName, nameof(plata));
+        }
+
+        [TestMethod]
         public async Task TestDeletPlata()
         {
             Plata plata = new Plata()
@@ -69,6 +80,16 @@ namespace ServiceLayerTest
             await controller.DeletePlata(plata);
 
             this.plataRepositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeletePlataNull()
+        {
+            Plata plata = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeletePlata(plata));
+
+            Assert.AreEqual(exception.ParamName, nameof(plata));
         }
 
         [TestMethod]
@@ -111,6 +132,16 @@ namespace ServiceLayerTest
             await controller.UpdatePlata(plata);
 
             this.plataRepositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdatePlataNull()
+        {
+            Plata plata = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdatePlata(plata));
+
+            Assert.AreEqual(exception.ParamName, nameof(plata));
         }
 
         [TestMethod]

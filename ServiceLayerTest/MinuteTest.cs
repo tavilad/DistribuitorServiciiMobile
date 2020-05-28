@@ -34,6 +34,19 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateMinuteNull()
+        {
+            Mock<IMinuteRepository> mock = new Mock<IMinuteRepository>();
+            MinuteController controller = new MinuteController(mock.Object);
+
+            Minute minute = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddMinute(minute));
+
+            Assert.AreEqual(exception.ParamName, nameof(minute));
+        }
+
+        [TestMethod]
         public async Task TestDeleteMinute()
         {
             Mock<IMinuteRepository> mock = new Mock<IMinuteRepository>();
@@ -49,6 +62,19 @@ namespace ServiceLayerTest
             await controller.DeleteMinute(minute);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeleteMinuteNull()
+        {
+            Mock<IMinuteRepository> mock = new Mock<IMinuteRepository>();
+            MinuteController controller = new MinuteController(mock.Object);
+
+            Minute minute = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeleteMinute(minute));
+
+            Assert.AreEqual(exception.ParamName, nameof(minute));
         }
 
         [TestMethod]
@@ -100,6 +126,19 @@ namespace ServiceLayerTest
             await controller.UpdateMinute(minute);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdateMinuteNull()
+        {
+            Mock<IMinuteRepository> mock = new Mock<IMinuteRepository>();
+            MinuteController controller = new MinuteController(mock.Object);
+
+            Minute minute = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdateMinute(minute));
+
+            Assert.AreEqual(exception.ParamName, nameof(minute));
         }
 
         [TestMethod]

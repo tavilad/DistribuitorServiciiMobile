@@ -1,9 +1,11 @@
 ﻿using DataMapper.Interfaces;
+using DistribuitorServiciiMobile.Models;
 using DomainModel.Models;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +15,12 @@ namespace ServiceLayer.Controllers
     {
         private IConvorbireTelefonicaRepository convorbireRepository;
 
-        public ConvorbireTelefonicaController(IConvorbireTelefonicaRepository repository)
+        private IAbonamentRepository abonamentRepository;
+
+        public ConvorbireTelefonicaController(IConvorbireTelefonicaRepository repository, IAbonamentRepository abonamentRepository)
         {
             this.convorbireRepository = repository;
+            this.abonamentRepository = abonamentRepository;
         }
 
 
@@ -65,6 +70,21 @@ namespace ServiceLayer.Controllers
         public async Task<ConvorbireTelefonica> GetById(object id)
         {
             return await this.convorbireRepository.GetById(id);
+        }
+
+        public async Task<Abonament> ExecutaApel(ConvorbireTelefonica convorbireTelefonica, Contract contract)
+        {
+            await this.convorbireRepository.Insert(convorbireTelefonica);
+
+            Client initiator = convorbireTelefonica.Initiator;
+
+            Abonament abonament = initiator.Contracte.Where(con => con.Id == contract.Id).FirstOrDefault().Abonament;
+            abonament.AbonamentMinute.Where(minute => minute.TipMinute == convorbireTelefonica.TipConvorbire).FirstOrDefault().MinuteConsumate +=
+                (int)convorbireTelefonica.DurataConvorbire;
+
+            await this.abonamentRepository.Update(abonament);
+
+            return abonament;
         }
 
         private void Validate(ConvorbireTelefonica convorbire)

@@ -16,12 +16,21 @@ namespace ServiceLayerTest
     [TestClass]
     public class ConvorvireTelefonicaTest
     {
+        Mock<IConvorbireTelefonicaRepository> mock;
+        ConvorbireTelefonicaController controller;
+        Mock<IAbonamentRepository> abonamentRepository;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            this.mock = new Mock<IConvorbireTelefonicaRepository>();
+            this.abonamentRepository = new Mock<IAbonamentRepository>();
+            this.controller = new ConvorbireTelefonicaController(this.mock.Object, this.abonamentRepository.Object);
+        }
+
         [TestMethod]
         public async Task TestCreateConvorbire()
         {
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
-
             ConvorbireTelefonica convorbire = new ConvorbireTelefonica()
             {
                 Id = new Guid(),
@@ -39,11 +48,18 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateConvorbireNull()
+        {
+            ConvorbireTelefonica convorbire = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddConvorbire(convorbire));
+
+            Assert.AreEqual(exception.ParamName, nameof(convorbire));
+        }
+
+        [TestMethod]
         public async Task TestDeleteConvorbire()
         {
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
-
             ConvorbireTelefonica convorbire = new ConvorbireTelefonica()
             {
                 Id = new Guid()
@@ -57,12 +73,19 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestDeleteConvorbireNull()
+        {
+            ConvorbireTelefonica convorbire = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeleteConvorbire(convorbire));
+
+            Assert.AreEqual(exception.ParamName, nameof(convorbire));
+        }
+
+        [TestMethod]
         public async Task TestGetAllConvorbire()
         {
             ConvorbireTelefonica[] convorbiri = { new ConvorbireTelefonica { Id = new Guid() }, new ConvorbireTelefonica { Id = new Guid() } };
-
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
 
             mock.Setup(t => t.Get(
                 It.IsAny<Expression<Func<ConvorbireTelefonica, bool>>>(),
@@ -77,9 +100,6 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestDeleteById()
         {
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
-
             mock.Setup(t => t.Delete(It.IsAny<int>())).Verifiable();
 
             await controller.DeleteConvorbireByID(1);
@@ -90,9 +110,6 @@ namespace ServiceLayerTest
         [TestMethod]
         public async Task TestUpdate()
         {
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
-
             ConvorbireTelefonica convorbire = new ConvorbireTelefonica()
             {
                 Id = new Guid()
@@ -108,16 +125,76 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestUpdateConvorbireNull()
+        {
+            ConvorbireTelefonica convorbire = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdateConvorbire(convorbire));
+
+            Assert.AreEqual(exception.ParamName, nameof(convorbire));
+        }
+
+        [TestMethod]
         public async Task TestGetById()
         {
-            Mock<IConvorbireTelefonicaRepository> mock = new Mock<IConvorbireTelefonicaRepository>();
-            ConvorbireTelefonicaController controller = new ConvorbireTelefonicaController(mock.Object);
-
             mock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new ConvorbireTelefonica());
 
             ConvorbireTelefonica convorbire = await controller.GetById(Guid.NewGuid());
 
             Assert.IsNotNull(convorbire);
+        }
+
+        [TestMethod]
+        public async Task TestExecutaApel()
+        {
+            Client initiator = new Client()
+            {
+                FirstName = "Octavian",
+                LastName = "Pintiliciuc",
+                CodNumericPersonal = "1960914080014",
+            };
+
+            Minute[] minute = {
+                new Minute()
+                {
+                    TipMinute = "Retea",
+                    NumarMinute = 100,
+                    MinuteConsumate = 0
+                }
+            };
+
+            Abonament abonament = new Abonament()
+            {
+                Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi",
+                AbonamentMinute = minute
+            };
+
+            Contract[] contracte = { 
+                new Contract()
+                {
+                    Client = initiator,
+                    Valabil = true,
+                    Abonament = abonament
+                }
+            };
+
+            ConvorbireTelefonica convorbire = new ConvorbireTelefonica()
+            {
+                Id = new Guid(),
+                Initiator = initiator,
+                Receptor = new Client(),
+                DurataConvorbire = 10,
+                TipConvorbire = "Retea"
+            };
+
+            initiator.Contracte = contracte;
+
+            Abonament result = await this.controller.ExecutaApel(convorbire, contracte[0]);
+
+            Assert.AreEqual(10, result.AbonamentMinute.FirstOrDefault().MinuteConsumate);
         }
     }
 }

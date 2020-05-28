@@ -18,11 +18,15 @@ namespace ServiceLayer.Controllers
 
         private ContractController contractController;
 
-        public PlataController(IPlataRepository repository, IContractRepository contractRepository, ClientController clientController)
+        private IAbonamentRepository abonamentRepository;
+
+        public PlataController(IPlataRepository repository, IContractRepository contractRepository, ClientController clientController, 
+            IAbonamentRepository abonamentRepository)
         {
             this.plataRepository = repository;
             this.contractRepository = contractRepository;
-            this.contractController = new ContractController(this.contractRepository, clientController, this.plataRepository);
+            this.abonamentRepository = abonamentRepository;
+            this.contractController = new ContractController(this.contractRepository, clientController, this.plataRepository, this.abonamentRepository);
         }
 
 

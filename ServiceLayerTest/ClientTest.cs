@@ -1,6 +1,7 @@
 ﻿using DataMapper;
 using DataMapper.Interfaces;
 using DistribuitorServiciiMobile.Models;
+using DomainModel.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ServiceLayer.Controllers;
@@ -45,6 +46,16 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateClientNull()
+        {
+            Client client = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddClient(client));
+
+            Assert.AreEqual(exception.ParamName, nameof(client));
+        }
+
+        [TestMethod]
         public async Task TestDeleteClient()
         {
             Client client = new Client()
@@ -58,6 +69,16 @@ namespace ServiceLayerTest
             await controller.DeleteClient(client);
 
             this.clientRepositoryMock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeleteClientNull()
+        {
+            Client client = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeleteClient(client));
+
+            Assert.AreEqual(exception.ParamName, nameof(client));
         }
 
         [TestMethod]
@@ -103,6 +124,16 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestUpdateClientNull()
+        {
+            Client client = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdateClient(client));
+
+            Assert.AreEqual(exception.ParamName, nameof(client));
+        }
+
+        [TestMethod]
         public async Task TestGetById()
         {
             this.clientRepositoryMock.Setup(mock => mock.GetById(It.IsAny<Guid>())).ReturnsAsync(new Client());
@@ -123,6 +154,78 @@ namespace ServiceLayerTest
             DateTime DOB = this.controller.GetClientDOB(client);
 
             Assert.AreEqual(DOB, new DateTime(1996, 9, 14));
+        }
+
+        [TestMethod]
+        public void TestAgeFromCNP2()
+        {
+            Client client = new Client
+            {
+                CodNumericPersonal = "5060914080014"
+            };
+
+            DateTime DOB = this.controller.GetClientDOB(client);
+
+            Assert.AreEqual(DOB, new DateTime(2006, 9, 14));
+        }
+
+        [TestMethod]
+        public async Task TestClientPaymentsOnTime()
+        {
+            Client client = new Client()
+            {
+                FirstName = "Octavian",
+                LastName = "Pintiliciuc",
+                CodNumericPersonal = "1960914080014"
+            };
+
+            Abonament abonament = new Abonament()
+            {
+                Pret = 1000,
+                DataInceput = DateTime.Now.AddDays(1),
+                DataSfarsit = new DateTime(2020, 9, 14),
+                NumeAbonament = "Abonament Digi"
+            };
+
+            Contract contract = new Contract()
+            {
+                Client = client,
+                Valabil = true,
+                Abonament = abonament
+            };
+
+            Pret totalDePlata = new Pret()
+            {
+                Suma = 100,
+                Valuta = "RON"
+            };
+
+            Pret sumaPlatita = new Pret()
+            {
+                Suma = 100,
+                Valuta = "RON"
+            };
+
+            Plata[] plati = {
+                new Plata()
+                {
+                    Client = client,
+                    Contract = contract,
+                    DataScadenta = DateTime.Today,
+                    DataPlata = new DateTime(2019,1,1),
+                    TotalDePlata = totalDePlata,
+                    SumaPlatita = sumaPlatita
+                }
+            };
+
+            this.plataRepositoryMock.Setup(t => t.Get(
+                It.IsAny<Expression<Func<Plata, bool>>>(),
+                It.IsAny<Func<IQueryable<Plata>, IOrderedQueryable<Plata>>>(),
+                It.IsAny<string>())).ReturnsAsync(plati);
+
+            bool check = await controller.CheckClientPaymentsOnTime(client);
+
+            Assert.AreEqual(true, check);
         }
     }
 }

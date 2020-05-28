@@ -54,5 +54,14 @@ namespace TestDomainModel
             plata.DataPlata = DateTime.Today;
             Assert.AreEqual(DateTime.Today, plata.DataPlata);
         }
+
+        [TestMethod]
+        public void TestEsteAchitatProperty()
+        {
+            Plata plata = new Plata();
+            plata.TotalDePlata = new Pret() { Suma = 100};
+            plata.SumaPlatita = new Pret() { Suma = 0 };
+            Assert.AreEqual(false, plata.EsteAchitat);
+        }
     }
 }

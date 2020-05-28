@@ -17,5 +17,13 @@ namespace TestDomainModel
             contract.Id = id;
             Assert.AreEqual(id, contract.Id);
         }
+
+        [TestMethod]
+        public void TestValabilProperty()
+        {
+            Contract contract = new Contract();
+            contract.Valabil = true;
+            Assert.AreEqual(true, contract.Valabil);
+        }
     }
 }

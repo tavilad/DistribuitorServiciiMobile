@@ -35,6 +35,19 @@ namespace ServiceLayerTest
         }
 
         [TestMethod]
+        public async Task TestCreateSmsNull()
+        {
+            Mock<ISmsRepository> mock = new Mock<ISmsRepository>();
+            SmsController controller = new SmsController(mock.Object);
+
+            SMS sms = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.AddSms(sms));
+
+            Assert.AreEqual(exception.ParamName, nameof(sms));
+        }
+
+        [TestMethod]
         public async Task TestDeleteSms()
         {
             Mock<ISmsRepository> mock = new Mock<ISmsRepository>();
@@ -50,6 +63,19 @@ namespace ServiceLayerTest
             await controller.DeleteSms(sms);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestDeleteSmsNull()
+        {
+            Mock<ISmsRepository> mock = new Mock<ISmsRepository>();
+            SmsController controller = new SmsController(mock.Object);
+
+            SMS sms = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.DeleteSms(sms));
+
+            Assert.AreEqual(exception.ParamName, nameof(sms));
         }
 
         [TestMethod]
@@ -101,6 +127,19 @@ namespace ServiceLayerTest
             await controller.UpdateSms(sms);
 
             mock.VerifyAll();
+        }
+
+        [TestMethod]
+        public async Task TestUpdateSmsNull()
+        {
+            Mock<ISmsRepository> mock = new Mock<ISmsRepository>();
+            SmsController controller = new SmsController(mock.Object);
+
+            SMS sms = null;
+
+            ArgumentNullException exception = await Assert.ThrowsExceptionAsync<ArgumentNullException>(() => controller.UpdateSms(sms));
+
+            Assert.AreEqual(exception.ParamName, nameof(sms));
         }
 
         [TestMethod]

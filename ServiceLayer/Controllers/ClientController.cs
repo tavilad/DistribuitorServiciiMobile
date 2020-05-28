@@ -117,18 +117,5 @@
 
             return true;
         }
-
-        public async Task ExecutaApel(ConvorbireTelefonica convorbireTelefonica, Contract contract)
-        {
-            await this.convorbireRepository.Insert(convorbireTelefonica);
-
-            Client initiator = convorbireTelefonica.Initiator;
-
-            Abonament abonament = initiator.Contracte.Where(con => con.Id == contract.Id).FirstOrDefault().Abonament;
-            abonament.AbonamentMinute.Where(minute => minute.TipMinute == convorbireTelefonica.TipConvorbire).FirstOrDefault().MinuteConsumate +=
-                (int)convorbireTelefonica.DurataConvorbire;
-
-            await this.abonamentRepository.Update(abonament);
-        }
     }
 }
